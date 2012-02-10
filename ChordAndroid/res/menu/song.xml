@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:id="@+id/menu_group_navigation" android:menuCategory="container" android:visible="false">
+        <item android:id="@+id/menu_item_next" android:title="@string/menu_item_next"></item>
+        <item android:id="@+id/menu_item_previous" android:title="@string/menu_item_previous"></item>
+    </group>
+    <item android:id="@+id/menu_item_font_size" 
+        android:icon="@drawable/ic_menu_font_size" 
+        android:title="Text Size"></item>
+    
+    <item android:id="@+id/menu_item_color_theme" 
+        android:icon="@drawable/ic_menu_theme" 
+        android:titleCondensed="Theme" 
+        android:title="Color Theme"></item>
+    
+    <item android:id="@+id/menu_item_transpose" 
+        android:title="Transpose" 
+        android:icon="@drawable/ic_menu_transpose"></item>
+
+    
+
+</menu>

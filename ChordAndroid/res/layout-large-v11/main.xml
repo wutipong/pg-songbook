@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/two_panel_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:layout_weight="1" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/adView"
+        android:baselineAligned="false" >
+
+        <RelativeLayout
+            android:id="@+id/artist_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/text_header_background"
+            android:orientation="vertical"
+            android:paddingRight="?android:attr/scrollbarSize" >
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/text_header_background"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
+                android:text="@string/artist_list_title"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <fragment
+                android:id="@+id/artist_list_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/textView1"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp"
+                class="com.playground_soft.chord.ArtistListFragment" >
+
+                <!-- Preview: layout=@layout/simple_list_item_single_choice -->
+            </fragment>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/song_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <fragment
+                android:id="@+id/song_list_fragment"
+                android:name="com.playground_soft.chord.SongListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="5dp" >
+
+                <!-- Preview: layout=@layout/simple_list_item_2 -->
+            </fragment>
+        </RelativeLayout>
+    </LinearLayout>
+	 <com.google.ads.AdView
+	     xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="IAB_BANNER"
+        ads:adUnitId="a14ee0c460a5570"
+        ads:loadAdOnCreate="true"
+        ads:testDevices="TEST_EMULATOR, 246FC7B552A48BCE19DEBEFAE1405F15" >
+    </com.google.ads.AdView>
+    
+</RelativeLayout>

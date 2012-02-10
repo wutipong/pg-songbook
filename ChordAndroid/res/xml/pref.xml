@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="preference">
+	<PreferenceCategory xmlns:android="http://schemas.android.com/apk/res/android"
+		android:key="pref_output"
+		android:title="Output Display">
+		<ListPreference android:key="@string/selected_font_size"
+			android:title="@string/pref_font_size" 
+			android:entries="@array/pref_font_size_options_values"
+			android:entryValues="@array/pref_font_size_options_values"
+			android:defaultValue="@string/pref_font_size_options_default" />
+
+		<ListPreference android:key="@string/selected_color_theme"
+			android:title="@string/pref_color_theme" 
+			android:entries="@array/theme_list"
+			android:entryValues="@array/theme_list_values"/>
+	</PreferenceCategory>
+	
+</PreferenceScreen>

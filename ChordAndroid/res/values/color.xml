@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="theme_list">
+		<item>Black on White</item>
+		<item>White on Black</item>
+		<item>Colorful</item>
+		<item>Modern</item>
+		<item>Romantic</item>
+	</string-array>
+	
+   <string-array name="theme_list_values">
+       <item>theme_monochrome</item>
+       <item>theme_monochrome_inverted</item>
+       <item>theme_colorful</item>
+       <item>theme_modern</item>
+       <item>theme_romantic</item>
+   </string-array>
+	
+	<array name="theme_monochrome">
+		<item>#ffffff</item>
+		<item>#000000</item>
+		<item>#212930</item>
+		<item>#323531</item>
+		<item>#414b56</item>
+	</array>
+	
+	<array name="theme_monochrome_inverted">
+	    <item>#000000</item>
+		<item>#ffffff</item>
+		<item>#868f98</item>
+		<item>#d2d6d9</item>
+		<item>#99a3a6</item>
+	</array>
+	
+	<array name="theme_colorful">
+		<item>#000000</item>
+		<item>#07b9fc</item>
+		<item>#9af000</item>
+		<item>#ffe63b</item>
+		<item>#ff822a</item>
+	</array>
+	
+	<array name="theme_modern">
+		<item>#003f53</item>
+		<item>#64b1d1</item>
+		<item>#d0fc0e</item>
+		<item>#fdb075</item>
+		<item>#ffd76e</item>
+	</array>
+	
+	<array name="theme_romantic">
+		<item>#FFFBD5</item>
+		<item>#FF5BA5</item>
+		<item>#DB49AC</item>
+		<item>#9957CD</item>
+		<item>#438EC8</item>
+	</array>
+	
+	<color name="text_header_background">#444444</color>
+</resources>
