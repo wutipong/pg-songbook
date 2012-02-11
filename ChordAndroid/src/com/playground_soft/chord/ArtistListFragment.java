@@ -4,7 +4,6 @@ import com.playground_soft.chord.dialog.AboutDialog;
 import com.playground_soft.chord.type.Artist;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.Menu;

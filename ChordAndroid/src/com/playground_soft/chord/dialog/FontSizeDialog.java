@@ -1,7 +1,5 @@
 package com.playground_soft.chord.dialog;
 
-import com.playground_soft.chord.R;
-
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -12,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.playground_soft.chord.R;
 
 public class FontSizeDialog 
 extends DialogFragment
