@@ -6,12 +6,14 @@ import com.playground_soft.chord.type.Artist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
-import android.view.MenuInflater;
+//import android.support.v4.view.Menu;
+//import android.support.v4.view.MenuItem;
+//import android.view.MenuInflater;
+//import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.actionbarsherlock.view.*;
 
 public class ArtistListFragment extends ListFragment 
 implements ImportThread.OnFinishHandler {

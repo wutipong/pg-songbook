@@ -12,14 +12,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.Menu;
-import android.support.v4.view.MenuItem;
+//import android.support.v4.view.Menu;
+//import android.support.v4.view.MenuItem;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
+//import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.actionbarsherlock.view.*;
 import com.playground_soft.chord.dialog.FontSizeDialog;
 import com.playground_soft.chord.dialog.ThemeListDialog;
 import com.playground_soft.chord.dialog.TransposeDialog;
@@ -80,7 +81,7 @@ public class SongDisplayFragment extends Fragment {
              Bundle savedInstanceState) {
 		 
 		 View result =  inflater.inflate(R.layout.chord_fragment, container, false); 
-		 getSupportActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		 getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		 
 		 return result;
 	 }
