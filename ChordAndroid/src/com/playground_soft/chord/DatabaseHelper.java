@@ -12,102 +12,102 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final int VERSION = 1;
-	private static final String CREATE_SONGLIST_TABLE = "CREATE TABLE song ("
-			+ "name TEXT, " + "artist TEXT, " + "filename TEXT);";
+    private static final int VERSION = 1;
+    private static final String CREATE_SONGLIST_TABLE = "CREATE TABLE song ("
+            + "name TEXT, " + "artist TEXT, " + "filename TEXT);";
 
-	private static final String CREATE_PLAYLIST_TABLE = "CREATE TABLE playlist ("
-			+ "name TEXT, " + "songrowid INTEGER);";
+    private static final String CREATE_PLAYLIST_TABLE = "CREATE TABLE playlist ("
+            + "name TEXT, " + "songrowid INTEGER);";
 
-	private static final String DATABASE_NAME = "song_db";
+    private static final String DATABASE_NAME = "song_db";
 
-	public DatabaseHelper(Context context) {
-		super(context, DATABASE_NAME, null, VERSION);
-		// TODO Auto-generated constructor stub
-	}
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(CREATE_SONGLIST_TABLE);
-		db.execSQL(CREATE_PLAYLIST_TABLE);
-	}
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_SONGLIST_TABLE);
+        db.execSQL(CREATE_PLAYLIST_TABLE);
+    }
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // TODO Auto-generated method stub
+    }
 
-	public synchronized Cursor getSongList() {
-		SQLiteDatabase db = this.getReadableDatabase();
+    public synchronized Cursor getSongList() {
+        SQLiteDatabase db = this.getReadableDatabase();
 
-		return db.query("song", new String[] { "_ROWID_ as _id", "name",
-				"artist", "filename" }, null, null, null, null, "name");
+        return db.query("song", new String[] { "_ROWID_ as _id", "name",
+                "artist", "filename" }, null, null, null, null, "name");
 
-	}
+    }
 
-	public synchronized boolean createOrUpdate(String name, String artist,
-			String filename) {
+    public synchronized boolean createOrUpdate(String name, String artist,
+            String filename) {
 
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.query("song", null, "filename=" + "'" + filename
-				+ "'", null, null, null, null);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query("song", null, "filename=" + "'" + filename
+                + "'", null, null, null, null);
 
-		ContentValues values = new ContentValues();
-		values.put("name", name);
-		values.put("artist", artist);
-		values.put("filename", filename);
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("artist", artist);
+        values.put("filename", filename);
 
-		if (cursor.getCount() == 0) {
-			db.insert("song", null, values);
-		} else {
-			db.update("song", values, "filename=" + "'" + filename + "'", null);
-		}
-		cursor.close();
-		db.close();
-		return true;
-	}
+        if (cursor.getCount() == 0) {
+            db.insert("song", null, values);
+        } else {
+            db.update("song", values, "filename=" + "'" + filename + "'", null);
+        }
+        cursor.close();
+        db.close();
+        return true;
+    }
 
-	public synchronized boolean deleteAllSong() {
+    public synchronized boolean deleteAllSong() {
 
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete("song", null, null);
-		return true;
-	}
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("song", null, null);
+        return true;
+    }
 
-	public synchronized String getSongFileName(long songid) {
-		SQLiteDatabase db = this.getReadableDatabase();
+    public synchronized String getSongFileName(long songid) {
+        SQLiteDatabase db = this.getReadableDatabase();
 
-		Cursor cursor = db.query("song", new String[] { "filename" },
-				"_ROWID_=" + songid, null, null, null, null);
+        Cursor cursor = db.query("song", new String[] { "filename" },
+                "_ROWID_=" + songid, null, null, null, null);
 
-		if (cursor.getCount() > 0) {
-			cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
 
-			return cursor.getString(0);
-		} else {
-			return "";
-		}
-	}
+            return cursor.getString(0);
+        } else {
+            return "";
+        }
+    }
 
-	public synchronized Artist[] getArtistList() {
+    public synchronized Artist[] getArtistList() {
 
-		ArrayList<Artist> artistList = new ArrayList<Artist>();
-		SQLiteDatabase db = getReadableDatabase();
-		Cursor cursor = db.query("song", new String[] { "max(_ROWID_) as _id",
-				"name", "artist", "filename" }, null, null, "artist", null,
-				"artist", null);
-		if (cursor.getCount() != 0) {
-			cursor.moveToFirst();
-			do {
-				String name = cursor.getString(2);
-				int id = cursor.getInt(0);
+        ArrayList<Artist> artistList = new ArrayList<Artist>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query("song", new String[] { "max(_ROWID_) as _id",
+                "name", "artist", "filename" }, null, null, "artist", null,
+                "artist", null);
+        if (cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            do {
+                String name = cursor.getString(2);
+                int id = cursor.getInt(0);
 
-				Artist artist = new Artist(name, id);
-				artistList.add(artist);
-			} while (cursor.moveToNext());
-		}
-		cursor.close();
-		db.close();
-		return artistList.toArray(new Artist[0]);
-	}
+                Artist artist = new Artist(name, id);
+                artistList.add(artist);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return artistList.toArray(new Artist[0]);
+    }
 }

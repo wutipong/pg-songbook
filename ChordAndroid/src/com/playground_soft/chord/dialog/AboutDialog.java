@@ -9,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class AboutDialog extends DialogFragment {
-	public View onCreateView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState) {
-		
-		super.onCreateView(inflater, container, savedInstanceState);
-		View v = inflater.inflate(R.layout.about_dialog, container);
-		
-		getDialog().setTitle("About");
-		return v;
-	}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.about_dialog, container);
+
+        getDialog().setTitle("About");
+        return v;
+    }
 }

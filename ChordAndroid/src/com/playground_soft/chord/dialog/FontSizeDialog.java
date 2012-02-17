@@ -15,56 +15,53 @@ import android.widget.ListView;
 
 import com.playground_soft.chord.R;
 
-public class FontSizeDialog 
-extends DialogFragment
-implements OnItemClickListener{
-	private String[] mItems;
+public class FontSizeDialog extends DialogFragment implements
+        OnItemClickListener {
+    private String[] mItems;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,
-			ViewGroup container, Bundle savedInstanceState) {
-		
-		super.onCreateView(inflater, container, savedInstanceState);
-		View v = inflater.inflate(R.layout.list_dialog, container);
-		Resources resources = getActivity().getResources();
-		
-		mItems = resources.getStringArray(R.array.pref_font_size_options_values);
-		
-		ArrayAdapter<String> adapter =
-				new ArrayAdapter<String>(getActivity(),
-						android.R.layout.simple_list_item_single_choice,
-						mItems);
-		SharedPreferences preferences =
-				PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		String selected = preferences.getString(
-				resources.getString(R.string.selected_font_size), "16");
-		int index = 0;
-		for ( ; index < mItems.length; index++) {
-			if (mItems[index].equals(selected)) {
-				break;
-			}
-		}
-		ListView lv = (ListView) v.findViewById(R.id.list);
-		lv.setAdapter(adapter);
-		lv.setItemChecked(index, true);
-		lv.setOnItemClickListener(this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 
-		getDialog().setTitle("Select Font Size");
-		return v;
-	}
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.list_dialog, container);
+        Resources resources = getActivity().getResources();
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		SharedPreferences preferences = 
-				PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-		Resources resources = getActivity().getResources();
-		
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(
-				resources.getString(R.string.selected_font_size),
-				mItems[arg2]);
+        mItems = resources
+                .getStringArray(R.array.pref_font_size_options_values);
 
-		editor.commit();
-		
-	}
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_list_item_single_choice, mItems);
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(this.getActivity());
+        String selected = preferences.getString(
+                resources.getString(R.string.selected_font_size), "16");
+        int index = 0;
+        for (; index < mItems.length; index++) {
+            if (mItems[index].equals(selected)) {
+                break;
+            }
+        }
+        ListView lv = (ListView) v.findViewById(R.id.list);
+        lv.setAdapter(adapter);
+        lv.setItemChecked(index, true);
+        lv.setOnItemClickListener(this);
+
+        getDialog().setTitle("Select Font Size");
+        return v;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(this.getActivity());
+        Resources resources = getActivity().getResources();
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(resources.getString(R.string.selected_font_size),
+                mItems[arg2]);
+
+        editor.commit();
+
+    }
 }
