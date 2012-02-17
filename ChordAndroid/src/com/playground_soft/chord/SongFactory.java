@@ -1,6 +1,7 @@
 package com.playground_soft.chord;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -68,6 +69,36 @@ public final class SongFactory {
     private static final String[] NOTE_NAMES_FLAT = { "C", "Db", "D", "Eb",
             "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" };
 
+    private enum TransposeType {
+        Sharp, Flat
+    };
+
+    private static class DrawLineParam {
+        public boolean isChorus = false;
+        public boolean isTab = false;
+
+        public float yLineStart = 0.0f;
+
+        public int width;
+
+        public final float heightChordLine;
+        public final float heightTextLine;
+        public final TransposeType transposeType;
+        public final int transpose;
+
+
+        public DrawLineParam( float heightChordLine,
+                float heightTextLine,
+                TransposeType transposeType,
+                int transpose) {
+
+            this.heightChordLine = heightChordLine;
+            this.heightTextLine = heightTextLine;
+            this.transposeType = transposeType;
+            this.transpose = transpose;
+        }
+    }
+
     public static Drawable create(Document doc, Activity activity,
             int transpose, boolean isSharp) {
         int width = 0;
@@ -75,114 +106,31 @@ public final class SongFactory {
 
         prepareResources(activity);
 
-        LinkedList<DrawTextCommand> commandList = new LinkedList<DrawTextCommand>();
+        List<DrawTextCommand> commandList = new LinkedList<DrawTextCommand>();
 
-        PointF chordPos = new PointF();
-        PointF textPos = new PointF();
+        LinkedList<Element> lineElements = new LinkedList<Element>();
 
-        float chordLineSpacing = sPaints[PAINT_TYPE_CHORD].getFontSpacing();
-        float textLineSpacing = sPaints[PAINT_TYPE_TEXT].getFontSpacing();
-
-        textPos.y = textLineSpacing + chordLineSpacing;
-        chordPos.y = chordLineSpacing;
-
-        boolean bChorus = false;
-        boolean bTab = false;
-        float chordWidth = 0;
-        float textWidth = 0;
-        boolean skipLineBreakAtTop = true;
+        DrawLineParam param = new DrawLineParam(
+                sPaints[PAINT_TYPE_CHORD].getFontSpacing(),
+                sPaints[PAINT_TYPE_TEXT].getFontSpacing(),
+                isSharp? TransposeType.Sharp: TransposeType.Flat,
+                transpose);
 
         for (Element element : doc.elementList) {
-
-            if (skipLineBreakAtTop) {
-                if (element.type == Element.Type.Linebreak
-                        || (element.type == Element.Type.Text && element.data
-                                .trim().length() == 0)) {
-
-                    continue;
-                } else {
-                    skipLineBreakAtTop = false;
-                }
-            }
-
             switch (element.type) {
+            case Linebreak :
+                commandList = addLine(commandList, lineElements, param);
+                lineElements.clear();
+                break;
+
             default:
+                lineElements.add(element);
                 break;
-            case Comment:
-                commandList.add(new DrawTextCommand(textPos, element.data,
-                        sPaints[PAINT_TYPE_COMMENT]));
-                break;
-
-            case StartOfChorus:
-                bChorus = true;
-                break;
-
-            case EndOfChorus:
-                bChorus = false;
-                break;
-
-            case StartOfTab:
-                bTab = true;
-                break;
-
-            case EndOfTab:
-                bTab = false;
-                break;
-
-            case Chord: {
-                String chord = transposeChord(element.data, transpose, isSharp);
-
-                if (textWidth == 0) {
-                    textPos.x += chordWidth;
-                }
-                chordPos.x = textPos.x;
-                commandList.add(new DrawTextCommand(chordPos, chord,
-                        sPaints[PAINT_TYPE_CHORD]));
-                chordWidth = sPaints[PAINT_TYPE_CHORD].measureText(chord + " ");
-                textWidth = 0;
-
-                break;
-            }
-            case Text:
-                Paint paint;
-                if (bTab) {
-                    paint = sPaints[PAINT_TYPE_TAB];
-                } else if (bChorus) {
-                    paint = sPaints[PAINT_TYPE_CHORUS];
-                } else {
-                    paint = sPaints[PAINT_TYPE_TEXT];
-                }
-                commandList.add(new DrawTextCommand(textPos, element.data,
-                        paint));
-                textWidth = paint.measureText(element.data);
-
-                if (textWidth > chordWidth) {
-                    textPos.x += textWidth;
-                } else {
-                    textPos.x += chordWidth;
-                }
-
-                if (textPos.x > width) {
-                    width = (int) (textPos.x + 1);
-                }
-                break;
-
-            case Linebreak:
-                float lineSpacing = textLineSpacing + chordLineSpacing;
-                if (bTab) {
-                    lineSpacing = textLineSpacing;
-                }
-                textPos.x = 0;
-                textPos.y += lineSpacing;
-                chordPos.x = 0;
-                chordPos.y = textPos.y - chordLineSpacing;
-                height += (int) (lineSpacing + 1);
-                textWidth = 0;
-                chordWidth = 0;
-                break;
-
             }
         }
+
+        width = param.width;
+        height = (int)(param.yLineStart+1);
 
         Picture picture = new Picture();
         Canvas canvas = picture.beginRecording(width, height);
@@ -197,6 +145,136 @@ public final class SongFactory {
         return new PictureDrawable(picture);
 
     }
+
+    private static List<DrawTextCommand> addLine(
+            List<DrawTextCommand> commandList,
+            List<Element> lineElements,
+            DrawLineParam param) {
+
+        boolean hasText = false;
+        boolean hasChord = false;
+        boolean hasComment = false;
+
+        for(Element element: lineElements) {
+            if(element.type == Element.Type.Text){
+                hasText = true;
+            } else if(element.type == Element.Type.Chord) {
+                hasChord = true;
+            } else if(element.type == Element.Type.Comment) {
+                hasComment = true;
+            }
+        }
+
+        float line1 = param.yLineStart;
+        float line2 = param.yLineStart;
+
+        if (hasText && hasChord) {
+            line1 += param.heightChordLine;
+            line2 += param.heightChordLine + param.heightTextLine;
+        } else if (hasText || hasComment) {
+            line1 += param.heightTextLine;
+            line2 += param.heightTextLine;
+        } else if (hasChord) {
+            line1 += param.heightChordLine;
+            line2 += param.heightChordLine;
+        } else if (lineElements.size() == 0){
+            param.yLineStart += param.heightTextLine;
+            return commandList;
+        }
+        param.yLineStart = line2;
+
+        PointF chordPos = new PointF();
+        chordPos.y = line1;
+        PointF textPos = new PointF();
+        textPos.y = line2;
+
+        float textWidth = 0;
+        float chordWidth = 0;
+
+        for(Element element: lineElements) {
+            switch (element.type) {
+
+            default:
+                break;
+            case StartOfChorus:
+                param.isChorus = true;
+                break;
+
+            case EndOfChorus:
+                param.isChorus = false;
+                break;
+
+            case StartOfTab:
+                param.isTab = true;
+                break;
+
+            case EndOfTab:
+                param.isTab = false;
+                break;
+
+            case Chord:
+            {
+                String chord = transposeChord(element.data, param.transpose, param.transposeType);
+
+                if (textWidth == 0) {
+                    textPos.x += chordWidth;
+                }
+                chordPos.x = textPos.x;
+                commandList.add(new DrawTextCommand(chordPos, chord,
+                        sPaints[PAINT_TYPE_CHORD]));
+                chordWidth = (int) (sPaints[PAINT_TYPE_CHORD].measureText(chord + " ") +1);
+                textWidth = 0;
+
+            }
+            break;
+
+            case Comment:
+                textWidth = addTextToLine(commandList, element, param, textPos,
+                        chordWidth, sPaints[PAINT_TYPE_COMMENT]);
+                break;
+
+            case Text:
+            {
+                Paint paint;
+                if (param.isTab) {
+                    paint = sPaints[PAINT_TYPE_TAB];
+                } else if (param.isChorus) {
+                    paint = sPaints[PAINT_TYPE_CHORUS];
+                } else {
+                    paint = sPaints[PAINT_TYPE_TEXT];
+                }
+
+                textWidth = addTextToLine(commandList, element, param, textPos,
+                        chordWidth, paint);
+            }
+            break;
+
+            }
+        }
+
+        return commandList;
+    }
+
+    private static float addTextToLine(List<DrawTextCommand> commandList,
+            Element element, DrawLineParam param, PointF textPos,
+            float chordWidth, Paint paint) {
+        float textWidth;
+        commandList.add(new DrawTextCommand(textPos, element.data,
+                paint));
+        textWidth = paint.measureText(element.data);
+
+        if (textWidth > chordWidth) {
+            textPos.x += textWidth;
+        } else {
+            textPos.x += chordWidth;
+        }
+
+        if (textPos.x > param.width) {
+            param.width = (int) (textPos.x + 1);
+        }
+        return textWidth;
+    }
+
 
     private static void prepareResources(Activity activity) {
         SharedPreferences preferences = PreferenceManager
@@ -263,28 +341,28 @@ public final class SongFactory {
     }
 
     private static String transposeChord(String input, int transpose,
-            boolean isSharp) {
+            TransposeType type) {
         if (transpose == 0)
             return input;
 
         String[] noteNames;
         String root = "";
-        String type = "";
+        String chordType = "";
         if (input.length() == 1) {
             noteNames = NOTE_NAMES_SHARP;
             root = input;
         } else if (input.charAt(1) == '#') {
             noteNames = NOTE_NAMES_SHARP;
             root = input.substring(0, 2);
-            type = input.substring(2);
+            chordType = input.substring(2);
         } else if (input.charAt(1) == 'b') {
             noteNames = NOTE_NAMES_FLAT;
             root = input.substring(0, 2);
-            type = input.substring(2);
+            chordType = input.substring(2);
         } else {
             noteNames = NOTE_NAMES_SHARP;
             root = input.substring(0, 1);
-            type = input.substring(1);
+            chordType = input.substring(1);
         }
 
         int noteIndex;
@@ -295,10 +373,10 @@ public final class SongFactory {
         noteIndex = (noteIndex + transpose + noteNames.length)
                 % noteNames.length;
 
-        if (isSharp) {
-            return NOTE_NAMES_SHARP[noteIndex] + type;
+        if (type == TransposeType.Sharp) {
+            return NOTE_NAMES_SHARP[noteIndex] + chordType;
         } else {
-            return NOTE_NAMES_FLAT[noteIndex] + type;
+            return NOTE_NAMES_FLAT[noteIndex] + chordType;
         }
     }
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -129,7 +130,34 @@ public class Document {
             processText(elementList, text);
 
         }
+
+        removeEmptyText(elementList);
+        removeTopEmptyLines(elementList);
+
         return new Document(elementList, title, subtitle);
+    }
+
+    private static void removeTopEmptyLines(List<Element> elementList) {
+        Iterator<Element> iter = elementList.iterator();
+
+        while(iter.hasNext()){
+            Element element = iter.next();
+            if(element.type == Element.Type.Linebreak)
+                iter.remove();
+            else
+                break;
+        }
+    }
+
+    private static void removeEmptyText(List<Element> elementList) {
+        Iterator<Element> iter = elementList.iterator();
+
+        while(iter.hasNext()){
+            Element element = iter.next();
+            if(element.type == Element.Type.Text &&
+                    element.data.trim().length() == 0)
+                iter.remove();
+        }
     }
 
     public static void processText(List<Element> elementList, String input) {
