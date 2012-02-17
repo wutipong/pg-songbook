@@ -13,7 +13,7 @@ import com.playground_soft.chord.dialog.AboutDialog;
 import com.playground_soft.chord.type.Artist;
 
 public class ArtistListFragment extends ListFragment implements
-        ImportThread.OnFinishHandler {
+        RefreshThread.OnFinishHandler {
     private ArrayAdapter<Artist> mAdapter;
     private DatabaseHelper mDbHelper;
     private SongListFragment mSonglistFragment;
@@ -74,7 +74,7 @@ public class ArtistListFragment extends ListFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.menu_item_synchronize) {
-            ImportThread thread = new ImportThread(this.getActivity(), this);
+            RefreshThread thread = new RefreshThread(this.getActivity(), this);
             thread.start();
             return true;
         } else if (itemId == R.id.menu_item_about) {

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 
 public class SongListFragment extends ListFragment implements
-        ImportThread.OnFinishHandler {
+        RefreshThread.OnFinishHandler {
     private SimpleCursorAdapter mAdapter;
     private DatabaseHelper mDbHelper;
 
