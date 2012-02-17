@@ -16,7 +16,7 @@ import android.util.Log;
 
 import com.playground_soft.chordlib.Document;
 
-public class ImportThread extends Thread {
+public class RefreshThread extends Thread {
 
     public interface OnFinishHandler {
         public void onFinished();
@@ -34,7 +34,7 @@ public class ImportThread extends Thread {
     private static final int MESSAGE_ARG_START = 1;
     private static final int MESSAGE_ARG_FINISHED = 0;
 
-    public ImportThread(Activity activity, OnFinishHandler onFinishHandler) {
+    public RefreshThread(Activity activity, OnFinishHandler onFinishHandler) {
 
         this.mActivity = activity;
         this.mDbHelper = new DatabaseHelper(mActivity);
