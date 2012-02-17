@@ -2,7 +2,7 @@
 <resources>
 
 	<string name="hello">Hello World, ChordAndroidActivity!</string>
-	<string name="app_name">Song Book</string>
+	<string name="app_name">PG Songbook</string>
 
 	<string name="menu_item_import">Import</string>
 
