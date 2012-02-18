@@ -8,60 +8,63 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import com.playground_soft.chord.R;
 
 public class FontSizeDialog extends DialogFragment implements
-        OnItemClickListener {
-    private String[] mItems;
-
+        OnSeekBarChangeListener{
+    private SeekBar mSeekBar;
+    private TextView mTextViewValue;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.list_dialog, container);
+        View v = inflater.inflate(R.layout.font_size_dialog, container);
         Resources resources = getActivity().getResources();
 
-        mItems = resources
-                .getStringArray(R.array.pref_font_size_options_values);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_single_choice, mItems);
+        mSeekBar = (SeekBar) v.findViewById(R.id.seek_bar_font_size);
+        mTextViewValue = (TextView) v.findViewById(R.id.text_font_size_value);
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(this.getActivity());
+        
         String selected = preferences.getString(
                 resources.getString(R.string.selected_font_size), "16");
-        int index = 0;
-        for (; index < mItems.length; index++) {
-            if (mItems[index].equals(selected)) {
-                break;
-            }
-        }
-        ListView lv = (ListView) v.findViewById(R.id.list);
-        lv.setAdapter(adapter);
-        lv.setItemChecked(index, true);
-        lv.setOnItemClickListener(this);
-
-        getDialog().setTitle("Select Font Size");
+        mSeekBar.setProgress(Integer.parseInt(selected));
+        mTextViewValue.setText(selected);
+        
+        mSeekBar.setOnSeekBarChangeListener(this);
+        
+        getDialog().setTitle("Font Size");
         return v;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+    public void onProgressChanged(SeekBar arg0, int progress, boolean fromUser) {
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(this.getActivity());
         Resources resources = getActivity().getResources();
 
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(resources.getString(R.string.selected_font_size),
-                mItems[arg2]);
+                Integer.toString(progress));
 
+        mTextViewValue.setText(Integer.toString(progress));
         editor.commit();
+    }
 
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        // TODO Auto-generated method stub
+        
     }
 }
