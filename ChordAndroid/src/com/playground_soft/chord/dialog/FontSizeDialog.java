@@ -30,14 +30,14 @@ public class FontSizeDialog extends DialogFragment implements
         mTextViewValue = (TextView) v.findViewById(R.id.text_font_size_value);
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(this.getActivity());
-        
+
         String selected = preferences.getString(
                 resources.getString(R.string.selected_font_size), "16");
         mSeekBar.setProgress(Integer.parseInt(selected));
         mTextViewValue.setText(selected);
-        
+
         mSeekBar.setOnSeekBarChangeListener(this);
-        
+
         getDialog().setTitle("Font Size");
         return v;
     }
@@ -59,12 +59,11 @@ public class FontSizeDialog extends DialogFragment implements
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         // TODO Auto-generated method stub
-        
     }
 }

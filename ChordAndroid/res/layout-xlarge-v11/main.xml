@@ -82,7 +82,7 @@
         ads:adSize="IAB_BANNER"
         ads:adUnitId="a14ee0c460a5570"
         ads:loadAdOnCreate="true"
-        ads:testDevices="TEST_EMULATOR, 246FC7B552A48BCE19DEBEFAE1405F15" >
+        ads:testDevices="TEST_EMULATOR, 246FC7B552A48BCE19DEBEFAE1405F15, 3F6D776ABDD3BAE550948903BF27883D" >
     </com.google.ads.AdView>
     
 </RelativeLayout>

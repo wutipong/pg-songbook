@@ -1,97 +1,78 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
-	<string name="hello">Hello World, ChordAndroidActivity!</string>
-	<string name="app_name">PG Songbook</string>
-
-	<string name="menu_item_import">Import</string>
-
-	<string name="artist_list_title">Artists</string>
-
-	<string name="song_list_title">Songs</string>
-
-	<string name="menu_item_preference">Preferences</string>
-
-	<string name="next">Next</string>
-
-	<string name="menu_item_next">Next</string>
-
-	<string name="menu_item_previous">Previous</string>
-
-	<string name="menu_item_larger_text">Increase Text Size</string>
-
-
-	<string name="menu_item_smaller_text">Decrease Text Size</string>
-
-	<string name="pref_theme">Theme</string>
-	
-	<string-array name="pref_theme_options">
-		<item>Dark</item>
-		<item>Light</item>
-	</string-array>
-	
-	<string-array name="pref_theme_options_values">
-		<item>Dark</item>
-		<item>Light</item>
-	</string-array>
-	<string name="pref_theme_options_default_value">Dark</string>
-	<string name="selected_theme">theme</string>
-	
-	<string-array name="pref_font_size_options_values">
-		<item>8</item>
-		<item>9</item>
-		<item>10</item>
-		<item>11</item>
-		<item>12</item>
-		<item>14</item>
-		<item>16</item>
-		<item>18</item>
-		<item>20</item>
-		<item>22</item>
-		<item>24</item>
-		<item>26</item>
-		<item>28</item>
-		<item>36</item>
-		<item>48</item>
-		<item>72</item>
-	</string-array>
-	
-	<string name="pref_font_size_options_default">22</string>
-	<string name="pref_font_size">Font Size</string>
-	<string name="selected_font_size">font_size</string>
-	
-	<string name="pref_color_theme">Color Theme</string>
-	<string name="selected_color_theme">color_theme</string>
-	<integer name="pref_color_theme_default_value">0</integer>
-	<string name="song_title">Songs</string>
-	
-	<string-array name="transpose_options">
-	    <item>+11</item>
-	    <item>+10</item>
-	    <item>+9</item>
-	    <item>+8</item>
-	    <item>+7</item>
-	    <item>+6</item>
-	    <item>+5</item>
-	    <item>+4</item>
-	    <item>+3</item>
-	    <item>+2</item>
-	    <item>+1</item>
-	    <item> 0</item>
-	    <item>-1</item>
-	    <item>-2</item>
-	    <item>-3</item>
-	    <item>-4</item>
-	    <item>-5</item>
-	    <item>-6</item>
-	    <item>-7</item>
-	    <item>-8</item>
-	    <item>-9</item>
-	    <item>-10</item>
-	    <item>-11</item>
-	</string-array>
-	
-	<integer-array name="transpose_values">
+    <string name="hello">Hello World, ChordAndroidActivity!</string>
+    <string name="app_name">PG Songbook</string>
+    <string name="menu_item_import">Import</string>
+    <string name="artist_list_title">Artists</string>
+    <string name="song_list_title">Songs</string>
+    <string name="menu_item_preference">Preferences</string>
+    <string name="next">Next</string>
+    <string name="menu_item_next">Next</string>
+    <string name="menu_item_previous">Previous</string>
+    <string name="menu_item_larger_text">Increase Text Size</string>
+    <string name="menu_item_smaller_text">Decrease Text Size</string>
+    <string name="pref_theme">Theme</string>
+    <string-array name="pref_theme_options">
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
+    <string-array name="pref_theme_options_values">
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
+    <string name="pref_theme_options_default_value">Dark</string>
+    <string name="selected_theme">theme</string>
+    <string-array name="pref_font_size_options_values">
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>24</item>
+        <item>26</item>
+        <item>28</item>
+        <item>36</item>
+        <item>48</item>
+        <item>72</item>
+    </string-array>
+    <string name="pref_font_size_options_default">22</string>
+    <string name="pref_font_size">Font Size</string>
+    <string name="selected_font_size">font_size</string>
+    <string name="pref_color_theme">Color Theme</string>
+    <string name="selected_color_theme">color_theme</string>
+    <integer name="pref_color_theme_default_value">0</integer>
+    <string name="song_title">Songs</string>
+    <string-array name="transpose_options">
+        <item>+11</item>
+        <item>+10</item>
+        <item>+9</item>
+        <item>+8</item>
+        <item>+7</item>
+        <item>+6</item>
+        <item>+5</item>
+        <item>+4</item>
+        <item>+3</item>
+        <item>+2</item>
+        <item>+1</item>
+        <item> 0</item>
+        <item>-1</item>
+        <item>-2</item>
+        <item>-3</item>
+        <item>-4</item>
+        <item>-5</item>
+        <item>-6</item>
+        <item>-7</item>
+        <item>-8</item>
+        <item>-9</item>
+        <item>-10</item>
+        <item>-11</item>
+    </string-array>
+    <integer-array name="transpose_values">
 	    <item>11</item>
 	    <item>10</item>
 	    <item>9</item>
@@ -116,12 +97,12 @@
 	    <item>-10</item>
 	    <item>-11</item>
 	</integer-array>
-	    <string name="sharp_or_flat">Sharp or Flat</string>
-	    <string name="transpose">Key Transpose (in semitones)</string>
-	    <string name="copyright">©2012 Wutipong Wongsakuldej</string>
-	    <string name="version">Version 1.0</string>
-	    <string name="homepage">Homepage : http://songbook.playground-soft.com</string>
-	    <string name="suggestion">Please send suggestions to : songbook@playground-soft.com</string>
-	    <string name="menu_item_about">About</string>
-	    <string name="dialog_font_size">Font Size</string>
+    <string name="sharp_or_flat">Sharp or Flat</string>
+    <string name="transpose">Number of semitones</string>
+    <string name="copyright">©2012 Wutipong Wongsakuldej</string>
+    <string name="version">Version 1.0</string>
+    <string name="homepage">Homepage : http://songbook.playground-soft.com</string>
+    <string name="suggestion">Please send suggestions to : songbook@playground-soft.com</string>
+    <string name="menu_item_about">About</string>
+    <string name="dialog_font_size">Font Size</string>
 </resources>
