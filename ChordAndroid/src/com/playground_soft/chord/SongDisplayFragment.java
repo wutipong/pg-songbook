@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +30,6 @@ public class SongDisplayFragment extends Fragment {
     private Document mDocument;
     private int mTransposeValue = 0;
     private boolean mIsTransposeInSharp = true;
-
-    private static final File DIR_ROOT = Environment
-            .getExternalStorageDirectory();
-
-    private static final File DIR_CACHE = new File(DIR_ROOT.getAbsoluteFile()
-            + "/Android/data/com.playground_soft.chord/cache/");
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

@@ -8,7 +8,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.ToggleButton;
 
 import com.playground_soft.chord.R;
@@ -17,12 +16,9 @@ public class TransposeDialog
         extends DialogFragment
         implements OnClickListener {
 
-    //private String[] mItems;
-    private int[] mValues;
     private int mSelectedValue = 0;
     private boolean mIsSharp;
     private ToggleButton mSharpOrFlatButton;
-    private ListView mListView;
     private EditText mEditSemitone;
     private Button mPlusButton, mMinusButton;
 
