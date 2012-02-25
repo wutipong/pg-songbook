@@ -48,7 +48,7 @@ public class SongDisplayFragment extends Fragment {
         String filename = db.getSongFileName(songid);
         db.close();
 
-        File file = new File(DIR_CACHE.getAbsoluteFile() + "/" + filename);
+        File file = new File(filename);
 
         StringBuilder builder = new StringBuilder();
 

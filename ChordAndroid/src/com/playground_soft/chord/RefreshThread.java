@@ -133,10 +133,8 @@ public class RefreshThread extends Thread {
         }
 
         if (outDir.exists()) {
-            for (File file : outDir.listFiles()) {
-                file.delete();
-            }
-            outDir.delete();
+
+            deleteDir(outDir);
         }
 
         if (!outDir.mkdirs()) {
@@ -150,30 +148,15 @@ public class RefreshThread extends Thread {
             return;
         }
 
-        File[] inFiles = inDir.listFiles();
+        try{
+            copyFiles(inDir, outDir);
+        } catch (IOException e) {
+            Message msgErr = new Message();
+            msgErr.what = MESSAGE_TYPE_ERROR;
 
-        for (int i = 0; i < inFiles.length; i++) {
-
-            try {
-                File inFile = inFiles[i];
-                File outFile = new File(outDir.getAbsoluteFile() + "/"
-                        + inFile.getName());
-
-                outFile.createNewFile();
-
-                copyFile(inFile, outFile);
-
-                Document doc = Document.createFromFile(outFile);
-                mDbHelper.createOrUpdate(doc.title, doc.subtitle,
-                        outFile.getName());
-            } catch (IOException e) {
-                Message msgErr = new Message();
-                msgErr.what = MESSAGE_TYPE_ERROR;
-
-                msgErr.obj = e.getMessage();
-                mHandler.sendMessage(msgErr);
-                return;
-            }
+            msgErr.obj = e.getMessage();
+            mHandler.sendMessage(msgErr);
+            return;
         }
 
         Message msg = new Message();
@@ -182,6 +165,50 @@ public class RefreshThread extends Thread {
 
         mHandler.sendMessage(msg);
         mDbHelper.close();
+    }
+
+    private void deleteDir(File outDir) {
+        for (File file : outDir.listFiles()) {
+            if(file.isDirectory())
+                deleteDir(file);
+            else
+                file.delete();
+        }
+        outDir.delete();
+    }
+
+    private void copyFiles(File inDir, File outDir) throws IOException {
+        File[] inFiles = inDir.listFiles();
+
+        for (int i = 0; i < inFiles.length; i++) {
+                File inFile = inFiles[i];
+                String inFileName = inFile.getName();
+                File outFile = new File(outDir.getAbsoluteFile() + "/"
+                        + inFile.getName());
+
+                if(inFile.isDirectory()) {
+                    outFile.mkdirs();
+
+                    copyFiles(inFile, outFile);
+                    return;
+                }
+
+                if( !inFileName.endsWith(".crd") &&
+                        !inFileName.endsWith(".cho") &&
+                        !inFileName.endsWith(".pro") &&
+                        !inFileName.endsWith(".chordpro")) {
+
+                    continue;
+                }
+
+                outFile.createNewFile();
+
+                copyFile(inFile, outFile);
+
+                Document doc = Document.createFromFile(outFile);
+                mDbHelper.createOrUpdate(doc.title, doc.subtitle,
+                        outFile.getAbsolutePath());
+        }
     }
 
     private void copyFile(File from, File to) throws IOException {
