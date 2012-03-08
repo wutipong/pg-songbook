@@ -75,7 +75,8 @@ public class SongDisplayFragment extends SherlockFragment {
 
         View result = inflater.inflate(R.layout.chord_fragment, container,
                 false);
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
 
         return result;
     }
