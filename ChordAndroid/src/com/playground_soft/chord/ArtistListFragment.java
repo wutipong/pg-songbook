@@ -2,18 +2,21 @@ package com.playground_soft.chord;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.app.SherlockListFragment;
+
 import com.playground_soft.chord.dialog.AboutDialog;
 import com.playground_soft.chord.type.Artist;
 
-public class ArtistListFragment extends ListFragment implements
-        RefreshThread.OnFinishHandler {
+public class ArtistListFragment
+        extends SherlockListFragment 
+        implements RefreshThread.OnFinishHandler {
     private ArrayAdapter<Artist> mAdapter;
     private DatabaseHelper mDbHelper;
     private SongListFragment mSonglistFragment;

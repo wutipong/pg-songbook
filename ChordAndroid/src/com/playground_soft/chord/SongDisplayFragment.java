@@ -10,21 +10,22 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+
 import com.playground_soft.chord.dialog.FontSizeDialog;
 import com.playground_soft.chord.dialog.ThemeListDialog;
 import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chordlib.Document;
 
-public class SongDisplayFragment extends Fragment {
+public class SongDisplayFragment extends SherlockFragment {
 
     private Drawable mOutputDrawable;
     private Document mDocument;
@@ -74,7 +75,7 @@ public class SongDisplayFragment extends Fragment {
 
         View result = inflater.inflate(R.layout.chord_fragment, container,
                 false);
-        getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
         return result;
     }
