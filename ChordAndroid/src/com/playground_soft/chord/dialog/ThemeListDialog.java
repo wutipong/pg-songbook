@@ -44,7 +44,7 @@ public class ThemeListDialog extends DialogFragment implements
                 break;
             }
         }
-        ListView lv = (ListView) v.findViewById(R.id.list);
+        ListView lv = (ListView) v.findViewById(R.id.list_items);
         lv.setAdapter(adapter);
         lv.setItemChecked(index, true);
         lv.setOnItemClickListener(this);
