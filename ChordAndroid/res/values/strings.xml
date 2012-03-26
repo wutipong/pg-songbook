@@ -100,7 +100,7 @@
     <string name="sharp_or_flat">Sharp or Flat</string>
     <string name="transpose">Number of semitones</string>
     <string name="copyright">©2012 Wutipong Wongsakuldej</string>
-    <string name="version">Version 1.0</string>
+    <string name="version">Version %VERSION%</string>
     <string name="homepage">Homepage : http://songbook.playground-soft.com</string>
     <string name="suggestion">Please send suggestions to : songbook@playground-soft.com</string>
     <string name="menu_item_about">About</string>
