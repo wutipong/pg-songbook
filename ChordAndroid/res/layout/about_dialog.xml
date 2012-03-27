@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dip"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="6dip" >
 
     <TextView
         android:id="@+id/textView1"

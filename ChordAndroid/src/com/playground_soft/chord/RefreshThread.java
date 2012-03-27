@@ -125,10 +125,11 @@ public class RefreshThread extends Thread {
             inDir.mkdirs();
 
             Message msg = new Message();
-            msg.what = MESSAGE_TYPE_ERROR;
-
-            msg.obj = "chordpro directory doesnot exist";
+            msg.what = MESSAGE_TYPE_NORMAL;
+            msg.arg1 = MESSAGE_ARG_FINISHED;
+            
             mHandler.sendMessage(msg);
+            mDbHelper.close();
             return;
         }
 
@@ -145,6 +146,7 @@ public class RefreshThread extends Thread {
             Log.i("file",
                     "Cannot create directory: " + outDir.getAbsolutePath());
             mHandler.sendMessage(msg);
+            mDbHelper.close();
             return;
         }
 
