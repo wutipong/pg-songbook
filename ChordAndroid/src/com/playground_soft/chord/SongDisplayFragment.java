@@ -25,7 +25,9 @@ import com.playground_soft.chord.dialog.ThemeListDialog;
 import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chordlib.Document;
 
-public class SongDisplayFragment extends SherlockFragment {
+public class SongDisplayFragment 
+        extends SherlockFragment 
+        implements View.OnLayoutChangeListener{
 
     private Drawable mOutputDrawable;
     private Document mDocument;
@@ -76,8 +78,7 @@ public class SongDisplayFragment extends SherlockFragment {
         View result = inflater.inflate(R.layout.chord_fragment, container,
                 false);
         getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
-
+       
         return result;
     }
 
@@ -146,8 +147,10 @@ public class SongDisplayFragment extends SherlockFragment {
     public void onStart() {
         super.onStart();
 
-        updateOutput();
-
+        //updateOutput();
+        View songdisp = getActivity().findViewById(R.id.song_display);
+        songdisp.addOnLayoutChangeListener(this);
+        
         this.getActivity().setTitle(
                 String.format("%s by %s", mDocument.title, mDocument.subtitle));
     }
@@ -155,8 +158,10 @@ public class SongDisplayFragment extends SherlockFragment {
     private void updateOutput() {
         ImageView view = (ImageView) this.getActivity().findViewById(
                 R.id.imageView1);
+        View container = getActivity().findViewById(R.id.song_display);
+        
         mOutputDrawable = SongFactory.create(mDocument, this.getActivity(),
-                mTransposeValue, mIsTransposeInSharp);
+                mTransposeValue, mIsTransposeInSharp, container.getWidth(), container.getHeight());
         view.setImageDrawable(mOutputDrawable);
     }
 
@@ -169,5 +174,12 @@ public class SongDisplayFragment extends SherlockFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onLayoutChange(View arg0, int arg1, int arg2, int arg3,
+            int arg4, int arg5, int arg6, int arg7, int arg8) {
+        // TODO Auto-generated method stub
+        updateOutput();
     }
 }

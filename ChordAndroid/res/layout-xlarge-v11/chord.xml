@@ -4,20 +4,19 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+
     <fragment
-        android:id="@+id/titles"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         class="com.playground_soft.chord.SongDisplayFragment" />
-
+
     <com.google.ads.AdView
         android:id="@+id/adView"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
+        android:layout_width="468dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         ads:adSize="BANNER"

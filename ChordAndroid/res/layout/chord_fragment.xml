@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent" 
+    android:id="@+id/song_display">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
@@ -12,13 +14,11 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@drawable/panel_background"
-                    android:src="@drawable/ic_launcher" />
-
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:src="@drawable/ic_launcher" />
         </HorizontalScrollView>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>    
+</LinearLayout>

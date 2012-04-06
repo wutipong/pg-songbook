@@ -100,7 +100,7 @@ public final class SongFactory {
     }
 
     public static Drawable create(Document doc, Activity activity,
-            int transpose, boolean isSharp) {
+            int transpose, boolean isSharp, int pageWidth, int pageHeight) {
         int width = 0;
         int height = 0;
 
@@ -131,13 +131,26 @@ public final class SongFactory {
 
         width = param.width;
         height = (int)(param.yLineStart+1);
-
+        if (pageHeight > 0) {
+            int pagecount = (height/ pageHeight) + 1;
+            height = pageHeight;
+            width *= pagecount;
+        } 
+                
         Picture picture = new Picture();
         Canvas canvas = picture.beginRecording(width, height);
         canvas.drawColor(mBackgroundColor);
+        
+        pageWidth = param.width;
+        
         for (DrawTextCommand command : commandList) {
-            canvas.drawText(command.getText(), command.getLocation().x,
-                    command.getLocation().y, command.getPaint());
+            PointF pos = command.getLocation();
+            int page = (int)pos.y / height;
+            pos.y = (int)pos.y % height;
+            pos.x = pos.x + pageWidth*page;
+            
+            canvas.drawText(command.getText(), pos.x,
+                    pos.y, command.getPaint());
         }
 
         picture.endRecording();
