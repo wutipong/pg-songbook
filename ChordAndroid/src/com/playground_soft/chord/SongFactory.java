@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Picture;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -28,18 +29,18 @@ public final class SongFactory {
     }
 
     private static class DrawTextCommand {
-        private final PointF mLocation;
+        private final Point mLocation;
         private final String mText;
         private final Paint mPaint;
 
-        public DrawTextCommand(PointF location, String text, Paint paint) {
-            this.mLocation = new PointF();
-            this.getLocation().set(location);
+        public DrawTextCommand(Point location, String text, Paint paint) {
+            this.mLocation = new Point();
+            this.mLocation.set(location.x, location.y);
             this.mText = text;
             this.mPaint = paint;
         }
 
-        public PointF getLocation() {
+        public Point getLocation() {
             return mLocation;
         }
 
@@ -77,25 +78,33 @@ public final class SongFactory {
         public boolean isChorus = false;
         public boolean isTab = false;
 
-        public float yLineStart = 0.0f;
+        public int yLineStart = 0;
+        public int xLineStart = 0;
 
-        public int width;
-
-        public final float heightChordLine;
-        public final float heightTextLine;
+        public int currentWidth = 0;
+        public int totalWidth = 0;
+        public int currentPage = 0;
+        
+        public final int heightChordLine;
+        public final int heightTextLine;
         public final TransposeType transposeType;
         public final int transpose;
+        public final int pageHeight;
+        public final int pageSeperator;
 
-
-        public DrawLineParam( float heightChordLine,
-                float heightTextLine,
+        public DrawLineParam( int heightChordLine,
+                int heightTextLine,
                 TransposeType transposeType,
-                int transpose) {
+                int transpose,
+                int pageHeight,
+                int pageSeperator) {
 
             this.heightChordLine = heightChordLine;
             this.heightTextLine = heightTextLine;
             this.transposeType = transposeType;
             this.transpose = transpose;
+            this.pageHeight = pageHeight;
+            this.pageSeperator = pageSeperator;
         }
     }
 
@@ -111,10 +120,12 @@ public final class SongFactory {
         LinkedList<Element> lineElements = new LinkedList<Element>();
 
         DrawLineParam param = new DrawLineParam(
-                sPaints[PAINT_TYPE_CHORD].getFontSpacing(),
-                sPaints[PAINT_TYPE_TEXT].getFontSpacing(),
+                (int)sPaints[PAINT_TYPE_CHORD].getFontSpacing(),
+                (int)sPaints[PAINT_TYPE_TEXT].getFontSpacing(),
                 isSharp? TransposeType.Sharp: TransposeType.Flat,
-                transpose);
+                transpose,
+                pageHeight,
+                (int)sPaints[PAINT_TYPE_TEXT].measureText("    "));
 
         for (Element element : doc.elementList) {
             switch (element.type) {
@@ -129,8 +140,9 @@ public final class SongFactory {
             }
         }
 
-        width = param.width;
-        height = (int)(param.yLineStart+1);
+        width = param.currentWidth;
+        height = param.yLineStart+1;
+        
         if (pageHeight > 0) {
             int pagecount = (height/ pageHeight) + 1;
             height = pageHeight;
@@ -141,14 +153,11 @@ public final class SongFactory {
         Canvas canvas = picture.beginRecording(width, height);
         canvas.drawColor(mBackgroundColor);
         
-        pageWidth = param.width;
+        pageWidth = param.currentWidth;
         
         for (DrawTextCommand command : commandList) {
-            PointF pos = command.getLocation();
-            int page = (int)pos.y / height;
-            pos.y = (int)pos.y % height;
-            pos.x = pos.x + pageWidth*page;
-            
+            Point pos = command.getLocation();
+
             canvas.drawText(command.getText(), pos.x,
                     pos.y, command.getPaint());
         }
@@ -177,29 +186,42 @@ public final class SongFactory {
                 hasComment = true;
             }
         }
-
-        float line1 = param.yLineStart;
-        float line2 = param.yLineStart;
+        
+        int line1 = 0;
+        int line2 = 0;
 
         if (hasText && hasChord) {
-            line1 += param.heightChordLine;
-            line2 += param.heightChordLine + param.heightTextLine;
+            line1 = param.heightChordLine;
+            line2 = param.heightChordLine + param.heightTextLine;
         } else if (hasText || hasComment) {
-            line1 += param.heightTextLine;
-            line2 += param.heightTextLine;
+            line1 = param.heightTextLine;
+            line2 = param.heightTextLine;
         } else if (hasChord) {
-            line1 += param.heightChordLine;
-            line2 += param.heightChordLine;
+            line1 = param.heightChordLine;
+            line2 = param.heightChordLine;
         } else if (lineElements.size() == 0){
             param.yLineStart += param.heightTextLine;
             return commandList;
         }
+        
+        if((line2 + param.yLineStart) > param.pageHeight) {
+            param.yLineStart = 0;
+            param.totalWidth += param.currentWidth + param.pageSeperator;
+            param.xLineStart = param.currentWidth + param.pageSeperator;
+            param.currentWidth = 0;
+        } else {
+            line1 += param.yLineStart;
+            line2 += param.yLineStart;
+        }
+        
         param.yLineStart = line2;
 
-        PointF chordPos = new PointF();
+        Point chordPos = new Point();
         chordPos.y = line1;
-        PointF textPos = new PointF();
+        chordPos.x = param.xLineStart;
+        Point textPos = new Point();
         textPos.y = line2;
+        textPos.x = param.xLineStart;
 
         float textWidth = 0;
         float chordWidth = 0;
@@ -236,6 +258,9 @@ public final class SongFactory {
                 commandList.add(new DrawTextCommand(chordPos, chord,
                         sPaints[PAINT_TYPE_CHORD]));
                 chordWidth = (int) (sPaints[PAINT_TYPE_CHORD].measureText(chord + " ") +1);
+                if (chordPos.x + chordWidth > param.currentWidth) {
+                    param.currentWidth = (int) (chordPos.x + chordWidth + 1);
+                }
                 textWidth = 0;
 
             }
@@ -269,7 +294,7 @@ public final class SongFactory {
     }
 
     private static float addTextToLine(List<DrawTextCommand> commandList,
-            Element element, DrawLineParam param, PointF textPos,
+            Element element, DrawLineParam param, Point textPos,
             float chordWidth, Paint paint) {
         float textWidth;
         commandList.add(new DrawTextCommand(textPos, element.data,
@@ -282,8 +307,8 @@ public final class SongFactory {
             textPos.x += chordWidth;
         }
 
-        if (textPos.x > param.width) {
-            param.width = (int) (textPos.x + 1);
+        if (textPos.x > param.currentWidth) {
+            param.currentWidth = (int) (textPos.x + 1);
         }
         return textWidth;
     }
