@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.playground_soft.chord.widget.FrameLayout 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/song_display"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:id="@+id/song_display">
+    android:layout_height="fill_parent" >
 
-    <ScrollView
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher" />
+    </HorizontalScrollView>
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/ic_launcher" />
-        </HorizontalScrollView>
-    </ScrollView>    
-</LinearLayout>
+</com.playground_soft.chord.widget.FrameLayout>
