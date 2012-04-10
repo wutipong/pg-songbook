@@ -4,4 +4,6 @@
           android:title="@string/menu_item_import" 
           android:icon="@drawable/ic_action_synchronize" android:showAsAction="never"/>
 	<item android:id="@+id/menu_item_help" android:title="@string/menu_item_help" android:showAsAction="never"></item><item android:id="@+id/menu_item_about" android:icon="@drawable/ic_action_about" android:title="@string/menu_item_about" android:showAsAction="never"></item>
+	
+    
 </menu>
