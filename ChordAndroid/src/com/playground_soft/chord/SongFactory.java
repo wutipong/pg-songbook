@@ -11,7 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
@@ -81,9 +80,7 @@ public final class SongFactory {
         public int yLineStart = 0;
         public int xLineStart = 0;
 
-        public int currentWidth = 0;
-        public int totalWidth = 0;
-        public int currentPage = 0;
+        public int pageWidth = 0;
         
         public final int heightChordLine;
         public final int heightTextLine;
@@ -110,9 +107,7 @@ public final class SongFactory {
 
     public static Drawable create(Document doc, Activity activity,
             int transpose, boolean isSharp, int pageWidth, int pageHeight) {
-        int width = 0;
-        int height = 0;
-
+      
         prepareResources(activity);
 
         List<DrawTextCommand> commandList = new LinkedList<DrawTextCommand>();
@@ -140,20 +135,9 @@ public final class SongFactory {
             }
         }
 
-        width = param.currentWidth;
-        height = param.yLineStart+1;
-        
-        if (pageHeight > 0) {
-            int pagecount = (height/ pageHeight) + 1;
-            height = pageHeight;
-            width *= pagecount;
-        } 
-                
         Picture picture = new Picture();
-        Canvas canvas = picture.beginRecording(width, height);
+        Canvas canvas = picture.beginRecording(param.pageWidth, param.pageHeight);
         canvas.drawColor(mBackgroundColor);
-        
-        pageWidth = param.currentWidth;
         
         for (DrawTextCommand command : commandList) {
             Point pos = command.getLocation();
@@ -206,9 +190,8 @@ public final class SongFactory {
         
         if((line2 + param.yLineStart) > param.pageHeight) {
             param.yLineStart = 0;
-            param.totalWidth += param.currentWidth + param.pageSeperator;
-            param.xLineStart = param.currentWidth + param.pageSeperator;
-            param.currentWidth = 0;
+            param.xLineStart = param.pageWidth + param.pageSeperator;
+            param.pageWidth = 0;
         } else {
             line1 += param.yLineStart;
             line2 += param.yLineStart;
@@ -258,8 +241,8 @@ public final class SongFactory {
                 commandList.add(new DrawTextCommand(chordPos, chord,
                         sPaints[PAINT_TYPE_CHORD]));
                 chordWidth = (int) (sPaints[PAINT_TYPE_CHORD].measureText(chord + " ") +1);
-                if (chordPos.x + chordWidth > param.currentWidth) {
-                    param.currentWidth = (int) (chordPos.x + chordWidth + 1);
+                if (chordPos.x + chordWidth > param.pageWidth) {
+                    param.pageWidth = (int) (chordPos.x + chordWidth + 1);
                 }
                 textWidth = 0;
 
@@ -307,8 +290,8 @@ public final class SongFactory {
             textPos.x += chordWidth;
         }
 
-        if (textPos.x > param.currentWidth) {
-            param.currentWidth = (int) (textPos.x + 1);
+        if (textPos.x > param.pageWidth) {
+            param.pageWidth = (int) (textPos.x + 1);
         }
         return textWidth;
     }

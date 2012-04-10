@@ -8,8 +8,12 @@ import java.io.InputStreamReader;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +27,13 @@ import com.actionbarsherlock.view.MenuItem;
 import com.playground_soft.chord.dialog.FontSizeDialog;
 import com.playground_soft.chord.dialog.ThemeListDialog;
 import com.playground_soft.chord.dialog.TransposeDialog;
+import com.playground_soft.chord.widget.FrameLayout;
 import com.playground_soft.chordlib.Document;
+
 
 public class SongDisplayFragment 
         extends SherlockFragment 
-        implements View.OnLayoutChangeListener{
+        implements FrameLayout.OnSizeChangedListener{
 
     private Drawable mOutputDrawable;
     private Document mDocument;
@@ -147,12 +153,8 @@ public class SongDisplayFragment
     public void onStart() {
         super.onStart();
 
-        //updateOutput();
-        View songdisp = getActivity().findViewById(R.id.song_display);
-        songdisp.addOnLayoutChangeListener(this);
-        
-        this.getActivity().setTitle(
-                String.format("%s by %s", mDocument.title, mDocument.subtitle));
+        FrameLayout songdisp = (FrameLayout)getActivity().findViewById(R.id.song_display);
+        songdisp.setOnSizeChangedListener(this);
     }
 
     private void updateOutput() {
@@ -163,6 +165,23 @@ public class SongDisplayFragment
         mOutputDrawable = SongFactory.create(mDocument, this.getActivity(),
                 mTransposeValue, mIsTransposeInSharp, container.getWidth(), container.getHeight());
         view.setImageDrawable(mOutputDrawable);
+        this.getActivity().setTitle(
+                String.format("%s by %s", mDocument.title, mDocument.subtitle));
+        
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
+        Resources resource = getActivity().getResources();
+
+        String theme = preferences.getString(
+                resource.getString(R.string.selected_color_theme),
+                "theme_monochrome");
+        int id = resource.getIdentifier(theme, "array",
+                "com.playground_soft.chord");
+        TypedArray array = resource.obtainTypedArray(id);
+
+        int mBackgroundColor = array.getColor(0, 0xFFFFFFFF);
+        
+        container.setBackgroundColor(mBackgroundColor);
     }
 
     @Override
@@ -177,9 +196,8 @@ public class SongDisplayFragment
     }
 
     @Override
-    public void onLayoutChange(View arg0, int arg1, int arg2, int arg3,
-            int arg4, int arg5, int arg6, int arg7, int arg8) {
-        // TODO Auto-generated method stub
+    public void onSizeChanged(int w, int h, int oldw, int oldh) {
         updateOutput();
+        
     }
 }

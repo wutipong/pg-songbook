@@ -59,7 +59,7 @@ public class ArtistListFragment
     private void updateArtistList() {
         int layout = android.R.layout.simple_list_item_1;
         if (mSonglistFragment != null) {
-            layout = android.R.layout.simple_list_item_single_choice;
+            layout = android.R.layout.simple_list_item_activated_1;
         }
         mAdapter = new ArrayAdapter<Artist>(this.getActivity(), layout);
 
