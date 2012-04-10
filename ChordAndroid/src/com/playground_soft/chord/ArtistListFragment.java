@@ -79,14 +79,19 @@ public class ArtistListFragment
         if (itemId == R.id.menu_item_synchronize) {
             RefreshThread thread = new RefreshThread(this.getActivity(), this);
             thread.start();
-            return true;
+
         } else if (itemId == R.id.menu_item_about) {
             AboutDialog dialog = new AboutDialog();
             dialog.show(this.getFragmentManager(), "");
-            return true;
+        } else if(itemId == R.id.menu_item_help){
+            Intent intent = new Intent(this.getActivity(), HelpActivity.class);
+            this.startActivity(intent);
+            
         } else {
             return super.onOptionsItemSelected(item);
         }
+        
+        return true;
     }
 
     @Override

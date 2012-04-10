@@ -105,4 +105,5 @@
     <string name="suggestion">Please send suggestions to : songbook@playground-soft.com</string>
     <string name="menu_item_about">About</string>
     <string name="dialog_font_size">Font Size</string>
+    <string name="menu_item_help">Help</string>
 </resources>
