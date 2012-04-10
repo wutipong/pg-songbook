@@ -5,10 +5,10 @@
 	<PreferenceCategory xmlns:android="http://schemas.android.com/apk/res/android"
 		android:key="pref_output"
 		android:title="Output Display">
-		<ListPreference android:key="@string/selected_font_size"
-			android:title="@string/pref_font_size" 
-			android:entries="@array/pref_font_size_options_values"
-			android:entryValues="@array/pref_font_size_options_values"
+		
+		<DialogPreference android:key="@string/selected_font_size"
+			android:title="@string/pref_font_size"
+			android:dialogLayout="@layout/font_size_dialog"
 			android:defaultValue="@string/pref_font_size_options_default" />
 
 		<ListPreference android:key="@string/selected_color_theme"
