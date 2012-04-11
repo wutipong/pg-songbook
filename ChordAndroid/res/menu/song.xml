@@ -6,7 +6,8 @@
     </group>
     <item android:id="@+id/menu_item_font_size" 
         android:icon="@drawable/ic_menu_font_size" 
-        android:title="Text Size"></item>
+        android:title="Text Size">
+    </item>
     
     <item android:id="@+id/menu_item_color_theme" 
         android:icon="@drawable/ic_menu_theme" 
@@ -16,7 +17,5 @@
     <item android:id="@+id/menu_item_transpose" 
         android:title="Transpose" 
         android:icon="@drawable/ic_menu_transpose"></item>
-
-    
-
+    <item android:id="@+id/menu_item_settings" android:showAsAction="never" android:title="@string/menu_item_settings"></item>
 </menu>
