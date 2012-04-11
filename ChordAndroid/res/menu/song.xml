@@ -6,8 +6,7 @@
     </group>
     
     <item android:id="@+id/menu_item_transpose" 
-        android:title="Transpose" 
-        android:icon="@drawable/ic_menu_transpose"></item>
+        android:title="Transpose"></item>
         
     <item android:id="@+id/menu_item_settings" 
     	android:showAsAction="never" 

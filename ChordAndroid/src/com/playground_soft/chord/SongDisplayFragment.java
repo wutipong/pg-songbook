@@ -24,7 +24,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import com.playground_soft.chord.dialog.AboutDialog;
+import com.playground_soft.chord.about.AboutActivity;
 import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chord.widget.FrameLayout;
 import com.playground_soft.chordlib.Document;
@@ -131,8 +131,8 @@ public class SongDisplayFragment
             break;
         }
         case R.id.menu_item_about: {
-            AboutDialog dialog = new AboutDialog();
-            dialog.show(this.getFragmentManager(), "");
+            Intent intent = new Intent(this.getActivity(), AboutActivity.class);
+            this.startActivity(intent);
             break;
         }
         default:

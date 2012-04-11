@@ -11,7 +11,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.app.SherlockListFragment;
 
-import com.playground_soft.chord.dialog.AboutDialog;
+import com.playground_soft.chord.about.AboutActivity;
 import com.playground_soft.chord.type.Artist;
 
 public class ArtistListFragment
@@ -75,20 +75,34 @@ public class ArtistListFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.menu_item_synchronize) {
-            RefreshThread thread = new RefreshThread(this.getActivity(), this);
-            thread.start();
-
-        } else if (itemId == R.id.menu_item_about) {
-            AboutDialog dialog = new AboutDialog();
-            dialog.show(this.getFragmentManager(), "");
-        } else if(itemId == R.id.menu_item_help){
-            Intent intent = new Intent(this.getActivity(), HelpActivity.class);
-            this.startActivity(intent);
+        
+        switch (item.getItemId()) {
+            case R.id.menu_item_settings : {
+                Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
+                startActivity(intent);
+                break;
+            }
             
-        } else {
-            return super.onOptionsItemSelected(item);
+            case R.id.menu_item_synchronize: {
+                RefreshThread thread = new RefreshThread(this.getActivity(), this);
+                thread.start();
+                break;
+            }
+            
+            case R.id.menu_item_about: {
+                Intent intent = new Intent(this.getActivity(), AboutActivity.class);
+                this.startActivity(intent);
+                break;
+            }
+            
+            case R.id.menu_item_help: {
+                Intent intent = new Intent(this.getActivity(), HelpActivity.class);
+                this.startActivity(intent);
+                break;
+            } 
+            
+            default:
+                return super.onOptionsItemSelected(item);
         }
         
         return true;
