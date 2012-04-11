@@ -4,8 +4,9 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+
     <fragment
+        android:id="@+id/song_fragment"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"

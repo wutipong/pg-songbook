@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:padding="6dip" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <TableRow
+        android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="28dp"
-        android:text="@string/dialog_font_size" />
-
-    <SeekBar
-        android:id="@+id/seek_bar_font_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
-        android:max="108"
-        android:progress="24" />
+        android:paddingTop="10dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/dialog_font_size" />
+
+        <TextView
+            android:id="@+id/text_font_size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="TextView" />
 
-    <TextView
-        android:id="@+id/text_font_size_value"
+    </TableRow>
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/seek_bar_font_size"
-        android:layout_marginLeft="38dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="TextView" />
+        android:paddingTop="10dp" >
+
+        <SeekBar
+            android:id="@+id/seek_bar_font_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal"
+            android:layout_weight="1.0"
+            android:max="108"
+            android:progress="24" />
 
-</RelativeLayout>
+    </TableRow>
+
+</TableLayout>

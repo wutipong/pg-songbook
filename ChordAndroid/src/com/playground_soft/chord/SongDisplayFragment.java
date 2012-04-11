@@ -24,8 +24,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-import com.playground_soft.chord.dialog.FontSizeDialog;
-import com.playground_soft.chord.dialog.ThemeListDialog;
+import com.playground_soft.chord.dialog.AboutDialog;
 import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chord.widget.FrameLayout;
 import com.playground_soft.chordlib.Document;
@@ -105,29 +104,7 @@ public class SongDisplayFragment
             this.startActivity(intent);
             break;
         }
-        case R.id.menu_item_font_size: {
-            FontSizeDialog dialog = new FontSizeDialog() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    super.onDismiss(dialog);
-                    updateOutput();
-                }
-            };
-            dialog.show(this.getFragmentManager(), "");
-            break;
-        }
-        case R.id.menu_item_color_theme: {
-            ThemeListDialog dialog = new ThemeListDialog() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-
-                    super.onDismiss(dialog);
-                    updateOutput();
-                }
-            };
-            dialog.show(this.getFragmentManager(), "");
-            break;
-        }
+        
         case R.id.menu_item_transpose: {
             TransposeDialog dialog = new TransposeDialog() {
                 @Override
@@ -141,11 +118,27 @@ public class SongDisplayFragment
             dialog.setValue(mTransposeValue);
             dialog.setIsSharp(mIsTransposeInSharp);
             dialog.show(this.getFragmentManager(), "");
+            break;
+        }
+        case R.id.menu_item_settings : {
+            Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
+            startActivity(intent);
+            break;
+        }
+        case R.id.menu_item_help:{
+            Intent intent = new Intent(this.getActivity(), HelpActivity.class);
+            this.startActivity(intent);
+            break;
+        }
+        case R.id.menu_item_about: {
+            AboutDialog dialog = new AboutDialog();
+            dialog.show(this.getFragmentManager(), "");
+            break;
         }
         default:
             break;
         }
-        updateOutput();
+        //updateOutput();
 
         return super.onOptionsItemSelected(item);
     }
@@ -153,23 +146,28 @@ public class SongDisplayFragment
     public void onStart() {
         super.onStart();
 
-        FrameLayout songdisp = (FrameLayout)getActivity().findViewById(R.id.song_display);
+        FrameLayout songdisp = 
+                (FrameLayout)getActivity().findViewById(R.id.song_display);
         songdisp.setOnSizeChangedListener(this);
     }
 
     private void updateOutput() {
         ImageView view = (ImageView) this.getActivity().findViewById(
                 R.id.imageView1);
+     
         View container = getActivity().findViewById(R.id.song_display);
         
         mOutputDrawable = SongFactory.create(mDocument, this.getActivity(),
-                mTransposeValue, mIsTransposeInSharp, container.getWidth(), container.getHeight());
+                mTransposeValue, mIsTransposeInSharp, 
+                container.getWidth(), 
+                container.getHeight());
+        
         view.setImageDrawable(mOutputDrawable);
         this.getActivity().setTitle(
                 String.format("%s by %s", mDocument.title, mDocument.subtitle));
         
-        SharedPreferences preferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity());
+        SharedPreferences preferences = 
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
         Resources resource = getActivity().getResources();
 
         String theme = preferences.getString(
@@ -193,6 +191,12 @@ public class SongDisplayFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setHasOptionsMenu(true);
+    }
+    
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateOutput();
     }
 
     @Override

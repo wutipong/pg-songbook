@@ -4,15 +4,6 @@
         <item android:id="@+id/menu_item_next" android:title="@string/menu_item_next"></item>
         <item android:id="@+id/menu_item_previous" android:title="@string/menu_item_previous"></item>
     </group>
-    <item android:id="@+id/menu_item_font_size" 
-        android:icon="@drawable/ic_menu_font_size" 
-        android:title="Text Size">
-    </item>
-    
-    <item android:id="@+id/menu_item_color_theme" 
-        android:icon="@drawable/ic_menu_theme" 
-        android:titleCondensed="Theme" 
-        android:title="Color Theme"></item>
     
     <item android:id="@+id/menu_item_transpose" 
         android:title="Transpose" 
@@ -21,4 +12,6 @@
     <item android:id="@+id/menu_item_settings" 
     	android:showAsAction="never" 
     	android:title="@string/menu_item_settings"></item>
+    <item android:id="@id/menu_item_help" android:showAsAction="never" android:title="@string/menu_item_help"></item>
+    <item android:id="@id/menu_item_about" android:showAsAction="never" android:title="@string/menu_item_about"></item>
 </menu>

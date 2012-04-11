@@ -6,10 +6,12 @@
 		android:key="pref_output"
 		android:title="Output Display">
 		
-		<DialogPreference android:key="@string/selected_font_size"
+		<com.playground_soft.chord.pref.FontSizePreference 
+		    android:key="@string/selected_font_size"
 			android:title="@string/pref_font_size"
-			android:dialogLayout="@layout/font_size_dialog"
-			android:defaultValue="@string/pref_font_size_options_default" />
+			android:defaultValue="@string/pref_font_size_options_default"
+			
+		/>
 
 		<ListPreference android:key="@string/selected_color_theme"
 			android:title="@string/pref_color_theme" 
