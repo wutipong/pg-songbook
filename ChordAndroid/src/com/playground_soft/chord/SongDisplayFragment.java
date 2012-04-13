@@ -12,8 +12,10 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +47,17 @@ public class SongDisplayFragment
         Intent intent = this.getActivity().getIntent();
 
         long songid = intent.getLongExtra("songid", 0);
-        DatabaseHelper db = new DatabaseHelper(getActivity());
-        String filename = db.getSongFileName(songid);
-        db.close();
-
+        Uri uri = intent.getData();
+        
+        String filename = "";
+        if(uri != null) {
+            filename = uri.getPath();
+        } else {
+        
+            DatabaseHelper db = new DatabaseHelper(getActivity());
+            filename = db.getSongFileName(songid);
+            db.close();
+        }
         File file = new File(filename);
 
         StringBuilder builder = new StringBuilder();
