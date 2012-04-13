@@ -1,5 +1,8 @@
 package com.playground_soft.chord.dialog;
 
+import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -14,22 +17,24 @@ import com.playground_soft.chord.R;
 
 public class TransposeDialog
         extends DialogFragment
-        implements OnClickListener {
+        implements OnClickListener, DialogInterface.OnClickListener {
 
     private int mSelectedValue = 0;
+    private int mTempValue = 0;
     private boolean mIsSharp;
     private ToggleButton mSharpOrFlatButton;
     private EditText mEditSemitone;
     private Button mPlusButton, mMinusButton;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    /* public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
+
         View v = inflater.inflate(R.layout.transpose_dialog, container);
 
         mEditSemitone = (EditText) v.findViewById(R.id.edit_semitones);
-        mEditSemitone.setText(Integer.toString(getValue()));
+        mEditSemitone.setText(Integer.toString(mTempValue));
         mEditSemitone.setKeyListener(null);
 
         mSharpOrFlatButton = (ToggleButton) v
@@ -42,9 +47,39 @@ public class TransposeDialog
         mPlusButton.setOnClickListener(this);
         mMinusButton.setOnClickListener(this);
 
-        this.getDialog().setTitle("Transpose");
+        //this.getDialog().setTitle("Transpose");
 
         return v;
+    } */
+    
+    @Override 
+    public Dialog onCreateDialog(Bundle savedInstanceState){
+
+        LayoutInflater inflater = LayoutInflater.from(this.getActivity());
+
+        View v = inflater.inflate(R.layout.transpose_dialog, null);
+
+        mEditSemitone = (EditText) v.findViewById(R.id.edit_semitones);
+        mEditSemitone.setText(Integer.toString(mTempValue));
+        mEditSemitone.setKeyListener(null);
+
+        mSharpOrFlatButton = (ToggleButton) v
+                .findViewById(R.id.button_sharp_or_flat);
+        mSharpOrFlatButton.setChecked(mIsSharp);
+
+        mPlusButton = (Button)v.findViewById(R.id.button_plus);
+        mMinusButton = (Button)v.findViewById(R.id.button_minus);
+
+        mPlusButton.setOnClickListener(this);
+        mMinusButton.setOnClickListener(this);
+
+        
+        return new AlertDialog.Builder(getActivity())
+                .setView(v)
+                .setTitle("Transpose")
+                .setPositiveButton(android.R.string.ok, this)
+                .setNegativeButton(android.R.string.cancel, this)
+                .create(); 
     }
 
     public int getValue() {
@@ -53,6 +88,7 @@ public class TransposeDialog
 
     public void setValue(int mSelectedValue) {
         this.mSelectedValue = mSelectedValue;
+        mTempValue = mSelectedValue;
     }
 
     public boolean isSharp() {
@@ -65,18 +101,28 @@ public class TransposeDialog
 
     @Override
     public void onClick(View v) {
-        int value = getValue();
-
         if(v == mPlusButton) {
-            value = value+1;
+            mTempValue = mTempValue+1;
         } else if(v == mMinusButton) {
-            value = value-1;
+            mTempValue = mTempValue-1;
         }
 
-        setValue(value);
-        mEditSemitone.setText(Integer.toString(getValue()));
+        mEditSemitone.setText(Integer.toString(mTempValue));
 
-        mPlusButton.setEnabled(value != 11);
-        mMinusButton.setEnabled(value != -11);
+        mPlusButton.setEnabled(mTempValue != 11);
+        mMinusButton.setEnabled(mTempValue != -11);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch(which) {
+        case DialogInterface.BUTTON_POSITIVE:
+            setValue(mTempValue);
+            break;
+        case DialogInterface.BUTTON_NEGATIVE:
+            break;
+        }
+        
+        dialog.dismiss();
     }
 }
