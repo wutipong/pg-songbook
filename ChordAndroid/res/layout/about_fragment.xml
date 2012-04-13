@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dip"
-    android:orientation="vertical"
     android:padding="6dip" >
 
     <TextView
@@ -26,17 +25,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/version" />
-    
-	<ImageView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:src="@android:drawable/divider_horizontal_dark"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:scaleType="fitXY"
-	    android:paddingLeft="5dp"
-	    android:paddingRight="5dp"
-	    android:paddingBottom="2dp"
-	    android:paddingTop="2dp" />
+
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:scaleType="fitXY"
+        android:src="@android:drawable/divider_horizontal_dark" />
 
     <TextView
         android:id="@+id/homepage"
@@ -54,4 +53,31 @@
         android:linksClickable="true"
         android:text="@string/suggestion" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Also follow us on" />
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_facebook" />
+
+        <ImageView
+            android:id="@+id/iv_google_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_google_plus" />
+
+    </TableRow>
+
+</TableLayout>

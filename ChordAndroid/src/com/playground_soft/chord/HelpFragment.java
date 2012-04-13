@@ -44,7 +44,7 @@ public class HelpFragment extends SherlockListFragment {
         HelpEntry entry = adapter.getItem(position);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(entry.url));
         
-        this.getActivity().startActivity(intent);
+        startActivity(intent);
     }
     
     @Override

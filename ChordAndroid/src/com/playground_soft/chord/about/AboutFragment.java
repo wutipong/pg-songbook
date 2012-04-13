@@ -3,17 +3,22 @@ package com.playground_soft.chord.about;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.playground_soft.chord.R;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class AboutFragment 
-extends SherlockFragment {
+extends SherlockFragment
+implements OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -34,6 +39,28 @@ extends SherlockFragment {
         
         getActivity().setTitle("About");
         
+        v.findViewById(R.id.iv_facebook).setOnClickListener(this);
+        v.findViewById(R.id.iv_google_plus).setOnClickListener(this);
         return v;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = null;
+        switch( view.getId()) {
+        case R.id.iv_facebook:
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/PlaygroundSoft"));
+            break;
+            
+        case R.id.iv_google_plus:
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/b/113425280669457572765/"));
+            break;
+            
+        default:
+            break;
+        }
+        if(intent != null)
+            startActivity(intent);
+        
     }
 }
