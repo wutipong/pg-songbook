@@ -49,11 +49,13 @@ implements OnClickListener{
         Intent intent = null;
         switch( view.getId()) {
         case R.id.iv_facebook:
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/PlaygroundSoft"));
+            intent = new Intent(Intent.ACTION_VIEW, 
+                    Uri.parse("http://www.facebook.com/PlaygroundSoft"));
             break;
             
         case R.id.iv_google_plus:
-            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://plus.google.com/b/113425280669457572765/"));
+            intent = new Intent(Intent.ACTION_VIEW, 
+                    Uri.parse("http://plus.google.com/113425280669457572765"));
             break;
             
         default:
