@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,10 +30,12 @@ implements OnClickListener{
         Resources res = getResources();
         String ver = "";
         try {
-            ver = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+            ver = getActivity().getPackageManager()
+                    .getPackageInfo(getActivity().getPackageName(), 0)
+                    .versionName;
+            
         } catch (NameNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+           Log.e("about", "error getting version number", e);
         }
         String strVersion = res.getString(R.string.version).replace("%VERSION%", ver);
         txtVersion.setText(strVersion);
