@@ -1,64 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="6dip" >
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentRight="true"
+    android:padding="6dp" >
 
-    <ToggleButton
-        android:id="@+id/button_sharp_or_flat"
+    <TableRow
+        android:id="@+id/tableRow1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="ToggleButton"
-        android:textOff="b (Flat)"
-        android:textOn="# (Sharp)" />
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/textView2"
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sharp_or_flat" />
+
+        <ToggleButton
+            android:id="@+id/button_sharp_or_flat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton"
+            android:textOff="b (Flat)"
+            android:textOn="# (Sharp)" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/button_sharp_or_flat"
-        android:text="@string/transpose" />
+        android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/button_minus"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transpose" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView2"
-        android:text="-" />
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/textView1"
+        <EditText
+            android:id="@+id/edit_semitones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="numberSigned" />
+
+        <Button
+            android:id="@+id/button_plus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/button_minus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_sharp_or_flat"
-        android:layout_alignBottom="@+id/button_sharp_or_flat"
-        android:layout_alignParentLeft="true"
-        android:text="@string/sharp_or_flat" />
+        android:layout_height="wrap_content" >
+    </TableRow>
 
-    <EditText
-        android:id="@+id/edit_semitones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button_minus"
-        android:layout_alignBottom="@+id/button_minus"
-        android:layout_toLeftOf="@+id/button_plus"
-        android:layout_toRightOf="@+id/button_minus"
-        android:editable="false"
-        android:enabled="true"
-        android:inputType="numberSigned" />
-
-    <Button
-        android:id="@+id/button_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/edit_semitones"
-        android:layout_alignParentRight="true"
-        android:text="+" />
-
-</RelativeLayout>
+</TableLayout>
