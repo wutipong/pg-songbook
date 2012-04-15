@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -40,11 +41,15 @@ public class HelpFragment extends SherlockListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-
         HelpEntry entry = adapter.getItem(position);
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(entry.url));
+        WebView webView = (WebView) getActivity().findViewById(R.id.help_web_view);
+        if(webView == null){
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(entry.url));
+            startActivity(intent);
+        } else {
+            webView.loadUrl(entry.url);
+        }
         
-        startActivity(intent);
     }
     
     @Override
