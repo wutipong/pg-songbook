@@ -146,6 +146,8 @@ public class ArtistListFragment
         if (searchView!=null) {
             MenuItem item = menu.findItem(R.id.menu_item_search);
             item.setActionView(searchView);
+            ((SearchView)searchView).setSearchableInfo(
+                    searchManager.getSearchableInfo(getActivity().getComponentName()));
         } 
     }
 
