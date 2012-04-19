@@ -26,4 +26,6 @@
     <string name="menu_item_refresh">Refresh</string>
     <string name="follow_us_on">Follow us on</string>
     <string name="contact">Contact : songbook@playground-soft.com</string>
+    <string name="menu_item_search">Search</string>
+    <string name="search_hint">Search song title or artist name</string>
 </resources>

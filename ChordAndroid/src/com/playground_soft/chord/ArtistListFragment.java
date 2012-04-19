@@ -1,10 +1,14 @@
 package com.playground_soft.chord;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SearchViewCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -36,7 +40,7 @@ public class ArtistListFragment
         if (mSonglistFragment != null) {
             mSonglistFragment.updateSongList(artistName);
         } else {
-            Intent intent = new Intent(this.getActivity(),
+            Intent intent = new Intent(this.getSherlockActivity(),
                     SongListActivity.class);
 
             intent.putExtra("artist", artistName);
@@ -61,11 +65,11 @@ public class ArtistListFragment
         if (mSonglistFragment != null) {
             layout = android.R.layout.simple_list_item_activated_1;
         }
-        mAdapter = new ArrayAdapter<Artist>(this.getActivity(), layout);
+        mAdapter = new ArrayAdapter<Artist>(this.getSherlockActivity(), layout);
 
         mAdapter.add(new Artist("All", -1));
 
-        mDbHelper = new DatabaseHelper(getActivity());
+        mDbHelper = new DatabaseHelper(getSherlockActivity());
 
         for (Artist artist : mDbHelper.getArtistList()) {
             mAdapter.add(artist);
@@ -78,28 +82,33 @@ public class ArtistListFragment
         
         switch (item.getItemId()) {
             case R.id.menu_item_settings : {
-                Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
+                Intent intent = new Intent(this.getSherlockActivity(), SettingsActivity.class); 
                 startActivity(intent);
                 break;
             }
             
             case R.id.menu_item_synchronize: {
-                RefreshThread thread = new RefreshThread(this.getActivity(), this);
+                RefreshThread thread = new RefreshThread(this.getSherlockActivity(), this);
                 thread.start();
                 break;
             }
             
             case R.id.menu_item_about: {
-                Intent intent = new Intent(this.getActivity(), AboutActivity.class);
+                Intent intent = new Intent(this.getSherlockActivity(), AboutActivity.class);
                 this.startActivity(intent);
                 break;
             }
             
             case R.id.menu_item_help: {
-                Intent intent = new Intent(this.getActivity(), HelpActivity.class);
+                Intent intent = new Intent(this.getSherlockActivity(), HelpActivity.class);
                 this.startActivity(intent);
                 break;
             } 
+            
+            case R.id.menu_item_search: {
+                getActivity().onSearchRequested();
+                break;
+            }
             
             default:
                 return super.onOptionsItemSelected(item);
@@ -123,7 +132,23 @@ public class ArtistListFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.main, menu);
+        
         super.onCreateOptionsMenu(menu, inflater);
+        
+     // Get the SearchView and set the searchable configuration
+       
+        SearchManager searchManager = 
+                (SearchManager) getSherlockActivity().getSystemService(Context.SEARCH_SERVICE);
+       
+        
+        View searchView = SearchViewCompat.newSearchView(this.getActivity());
+        // if search view is compatible
+        if (searchView!=null) {
+            MenuItem item = menu.findItem(R.id.menu_item_search);
+            item.setActionView(searchView);
+            ((SearchView)searchView).setSearchableInfo(
+                    searchManager.getSearchableInfo(getActivity().getComponentName()));
+        } 
     }
 
     @Override

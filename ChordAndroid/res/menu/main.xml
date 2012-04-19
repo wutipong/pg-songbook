@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:id="@+id/menu_item_synchronize"
+	<item android:id="@+id/menu_item_search" android:title="@string/menu_item_search" android:showAsAction="always" android:icon="@drawable/ic_action_search"></item><item android:id="@+id/menu_item_synchronize"
           android:title="@string/menu_item_refresh" 
           android:showAsAction="never"/>
 	
@@ -11,6 +11,7 @@
 	    
 	    
 	</item>
+	
 	
 	
     
