@@ -1,18 +1,23 @@
 package com.playground_soft.chord;
 
+import com.playground_soft.chord.type.Song;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class SongListFragment extends ListFragment implements
         RefreshThread.OnFinishHandler {
-    private SimpleCursorAdapter mAdapter;
+
     private DatabaseHelper mDbHelper;
+    private Song[] mSongs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,7 @@ public class SongListFragment extends ListFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mDb.close();
+
         mDbHelper.close();
     }
 
@@ -34,7 +39,9 @@ public class SongListFragment extends ListFragment implements
         super.onListItemClick(l, v, position, id);
         Intent intent = new Intent(this.getActivity(),
                 SongDisplayActivity.class);
-        intent.putExtra("songid", id);
+        
+        //intent.putExtra("songid", mSongs[position].id);
+        intent.setData(Uri.fromFile(mSongs[position].file));
         this.startActivity(intent);
 
     }
@@ -46,35 +53,21 @@ public class SongListFragment extends ListFragment implements
         Intent intent = this.getActivity().getIntent();
         String artist = intent.getStringExtra("artist");
         mDbHelper = new DatabaseHelper(this.getActivity());
-        mDb = mDbHelper.getReadableDatabase();
+
         this.updateSongList(artist);
 
     }
 
     public void updateSongList(String artist) {
-        String condition = null;
-        if (artist != null && !artist.equals("")) {
-            condition = "artist='" + artist + "'";
-        }
 
-        Cursor cursor = mDb.query("song", new String[] { "_ROWID_ as _id",
-                "name", "artist", "filename" }, condition, null, null, null,
-                "name");
-
-        if (mAdapter == null) {
-            mAdapter = new SimpleCursorAdapter(getActivity(),
-                    android.R.layout.simple_list_item_2, cursor, new String[] {
-                            "name", "artist" }, new int[] { android.R.id.text1,
-                            android.R.id.text2 }, 0);
-        } else {
-            cursor = mAdapter.swapCursor(cursor);
-            cursor.close();
-        }
-
-        setListAdapter(mAdapter);
+        mSongs = mDbHelper.getSongs(artist, true, null, true);
+        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(getActivity(), 
+                android.R.layout.simple_list_item_1, 
+                mSongs);
+        
+        setListAdapter(adapter);
     }
 
-    private SQLiteDatabase mDb;
 
     @Override
     public void onFinished() {

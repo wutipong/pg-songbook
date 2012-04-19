@@ -1,8 +1,12 @@
 package com.playground_soft.chord;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.playground_soft.chord.type.Artist;
+import com.playground_soft.chord.type.Song;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -43,6 +47,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.query("song", new String[] { "_ROWID_ as _id", "name",
                 "artist", "filename" }, null, null, null, null, "name");
 
+    }
+    
+    public synchronized Song[] getSongs(
+            String searchArtist,
+            boolean exactArtist,
+            String searchSong,
+            boolean exactSong) {
+        
+        List<Song> songList = new LinkedList<Song>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        String condition = "";
+        
+        if (searchArtist != null && !searchArtist.equals("")) {
+            condition = "artist='" + searchArtist + "'";
+        }
+        
+        if (searchSong != null && !searchSong.equals("")) {
+            if(!condition.isEmpty())
+                condition = condition + " and ";
+            
+            condition += "name='" + searchSong + "'";
+        }
+       
+        Cursor cursor =  db.query("song", 
+                new String[] { "_ROWID_ as _id", "name", "artist", "filename" }, 
+                condition, null, null, null, "name");
+        
+        
+        for( cursor.moveToFirst(); 
+                !cursor.isAfterLast(); 
+                cursor.moveToNext()) {
+            
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String artist = cursor.getString(2);
+            String file = cursor.getString(3);
+            
+            Song song = new Song(name, artist, new File(file), id );
+            songList.add(song);
+        }
+        
+        cursor.close();
+        db.close();
+        
+        return songList.toArray(new Song[0]);
     }
 
     public synchronized boolean createOrUpdate(String name, String artist,
