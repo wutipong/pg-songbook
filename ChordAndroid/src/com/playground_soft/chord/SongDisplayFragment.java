@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -163,6 +164,18 @@ public class SongDisplayFragment
                 e.printStackTrace();
             }
             dbHelper.close();
+            
+            new AlertDialog.Builder(getActivity())
+                .setTitle("File is added")
+                .setMessage(file.getName() + " is copied into the library.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       dialog.dismiss();
+                    }
+                })
+                .show();
         }
         default:
             break;

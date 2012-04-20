@@ -6,7 +6,7 @@
     </group>
     
     <item android:id="@+id/menu_item_transpose" 
-        android:title="@string/menu_item_transpose"></item><item android:id="@+id/menu_item_add_to_library" android:title="@string/menu_item_add_to_library" android:showAsAction="never"></item>
+        android:title="@string/menu_item_transpose"></item><item android:id="@+id/menu_item_add_to_library" android:title="@string/menu_item_add_to_library" android:showAsAction="ifRoom" android:icon="@drawable/ic_action_add"></item>
         
     <item android:id="@+id/menu_item_settings" 
     	android:showAsAction="never" 
