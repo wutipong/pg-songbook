@@ -28,4 +28,7 @@
     <string name="contact">Contact : songbook@playground-soft.com</string>
     <string name="menu_item_search">Search</string>
     <string name="search_hint">Search song title or artist name</string>
+    <string name="separator">separator</string>
+    <string name="facebook">Facebook</string>
+    <string name="google_plus">Google+</string>
 </resources>
