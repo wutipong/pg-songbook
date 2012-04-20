@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chordlib.Document;
 
 public class RefreshThread extends Thread {

@@ -16,6 +16,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.app.SherlockListFragment;
 
 import com.playground_soft.chord.about.AboutActivity;
+import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.type.Artist;
 
 public class ArtistListFragment

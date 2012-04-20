@@ -1,4 +1,4 @@
-package com.playground_soft.chord;
+package com.playground_soft.chord.db;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,16 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
     }
-
-    public synchronized Cursor getSongList() {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        return db.query("song", new String[] { "_ROWID_ as _id", "name",
-                "artist", "filename" }, null, null, null, null, "name");
-
-    }
-    
-    public synchronized Song[] getSongs(
+       
+    public synchronized Song[] querySong(
             String searchArtist,
             boolean exactArtist,
             String searchSong,
@@ -61,14 +53,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String condition = "";
         
         if (searchArtist != null && !searchArtist.equals("")) {
-            condition = "artist='" + searchArtist + "'";
+            if(exactArtist)
+                condition = "artist='" + searchArtist + "'";
+            else
+                condition = "artist like '%" + searchArtist + "%'";
         }
         
         if (searchSong != null && !searchSong.equals("")) {
             if(!condition.isEmpty())
-                condition = condition + " and ";
-            
-            condition += "name='" + searchSong + "'";
+                condition = condition + " or ";
+            if(exactSong)
+                condition += "name='" + searchSong + "'";
+            else
+                condition += "name like '%"+searchSong + "%'";
         }
        
         Cursor cursor =  db.query("song", 
@@ -122,21 +119,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("song", null, null);
         return true;
-    }
-
-    public synchronized String getSongFileName(long songid) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query("song", new String[] { "filename" },
-                "_ROWID_=" + songid, null, null, null, null);
-
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-
-            return cursor.getString(0);
-        } else {
-            return "";
-        }
     }
 
     public synchronized Artist[] getArtistList() {
