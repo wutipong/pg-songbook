@@ -31,4 +31,6 @@
     <string name="separator">separator</string>
     <string name="facebook">Facebook</string>
     <string name="google_plus">Google+</string>
+    <string name="menu_item_add_to_library">Add To Library</string>
+    <string name="menu_item_transpose">Transpose</string>
 </resources>

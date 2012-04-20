@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import com.playground_soft.chord.about.AboutActivity;
+import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chord.widget.FrameLayout;
 import com.playground_soft.chordlib.Document;
@@ -44,7 +46,7 @@ public class SongDisplayFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getActivity().getIntent();
-
+        
         Uri uri = intent.getData();
         assert(uri != null);
        
@@ -55,8 +57,8 @@ public class SongDisplayFragment
         try {
             FileInputStream stream = new FileInputStream(file);
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    stream));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(stream));
 
             String line;
 
@@ -90,6 +92,17 @@ public class SongDisplayFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.song, menu);
+        
+        Intent intent = this.getActivity().getIntent();
+        
+        Uri uri = intent.getData();
+        assert(uri != null);
+       
+        File file = new File(uri.getPath());
+        if(file.getParentFile().equals(FileSystemUtils.INTERNAL_DIR)){
+            menu.removeItem(R.id.menu_item_add_to_library);
+        }
+            
 
     }
 
@@ -133,6 +146,23 @@ public class SongDisplayFragment
             Intent intent = new Intent(this.getActivity(), AboutActivity.class);
             this.startActivity(intent);
             break;
+        }
+        case R.id.menu_item_add_to_library: {
+            Intent intent = this.getActivity().getIntent();
+
+            Uri uri = intent.getData();
+            assert(uri != null);
+           
+            File file = new File(uri.getPath());
+            DatabaseHelper dbHelper = new DatabaseHelper(this.getActivity());
+            
+            try {
+                FileSystemUtils.copyToLibrary(file, dbHelper);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            dbHelper.close();
         }
         default:
             break;

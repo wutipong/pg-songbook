@@ -116,11 +116,9 @@ public class RefreshThread extends Thread {
         startMsg.arg1 = MESSAGE_ARG_START;
         mHandler.sendMessage(startMsg);
 
-        File rootExtDir = Environment.getExternalStorageDirectory();
-        File inDir = new File(rootExtDir.getAbsolutePath() + "/chordpro");
-        File outDir = new File(rootExtDir.getAbsoluteFile()
-                + "/Android/data/com.playground_soft.chord/cache/");
-
+       File inDir = FileSystemUtils.EXTERNAL_DIR;
+       File outDir = FileSystemUtils.INTERNAL_DIR;
+      
         mDbHelper.deleteAllSong();
         if (!inDir.exists()) {
             inDir.mkdirs();
@@ -206,7 +204,7 @@ public class RefreshThread extends Thread {
 
                 outFile.createNewFile();
 
-                copyFile(inFile, outFile);
+                FileSystemUtils.copyFile(inFile, outFile);
 
                 Document doc = Document.createFromFile(outFile);
                 mDbHelper.createOrUpdate(doc.title, doc.subtitle,
@@ -214,18 +212,5 @@ public class RefreshThread extends Thread {
         }
     }
 
-    private void copyFile(File from, File to) throws IOException {
-        FileReader reader = new FileReader(from);
-        FileWriter writer = new FileWriter(to);
-
-        final int bufferSize = 1024;
-        char[] buffer = new char[bufferSize];
-        int read = 0;
-        while ((read = reader.read(buffer, 0, buffer.length)) != -1) {
-            writer.write(buffer, 0, read);
-        }
-
-        reader.close();
-        writer.close();
-    }
+  
 }

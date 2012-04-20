@@ -39,6 +39,8 @@ public class SongListFragment extends ListFragment implements
         
         Song song = (Song)getListAdapter().getItem(position);
         intent.setData(Uri.fromFile(song.file));
+        intent.putExtra("iternal", true);
+        
         this.startActivity(intent);
     }
 

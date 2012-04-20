@@ -39,6 +39,7 @@ public class SearchActivity extends SherlockListActivity {
                 SongDisplayActivity.class);
         Song song = (Song)getListAdapter().getItem(position);
         intent.setData(Uri.fromFile(song.file));
+        intent.putExtra("internal", true);
         this.startActivity(intent);
     }
     
