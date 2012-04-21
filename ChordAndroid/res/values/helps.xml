@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="help_items">
-        <item >How-to import files</item>
+        <item >PG Songbook in details</item><item >How-to import files</item>
+        <item >How to open a file from other application, and add that file into the library</item>
+        <item >How to transpose</item>
+        
     </string-array>
     <string-array name="help_urls">
-        <item >http://songbook.playground-soft.com/wordpress/?page_id=17</item>
+        <item >http://songbook.playground-soft.com/wordpress/?page_id=8</item><item >http://songbook.playground-soft.com/wordpress/?page_id=17</item>
+        <item >http://songbook.playground-soft.com/wordpress/?page_id=57</item>
+        <item >http://songbook.playground-soft.com/wordpress/?page_id=73</item>
+        
     </string-array>
     
 </resources>

@@ -3,18 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-
-    <ScrollView
-        android:id="@+id/scroll_view_1"
-        android:layout_width="300dp"
-        android:layout_height="match_parent" >
-
-        <fragment
-            android:name="com.playground_soft.chord.HelpFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </ScrollView>
+
+    <fragment
+        android:name="com.playground_soft.chord.HelpFragment"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content" />
 
     <WebView
         android:id="@+id/help_web_view"
