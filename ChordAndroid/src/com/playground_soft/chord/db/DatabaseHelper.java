@@ -60,7 +60,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         
         if (searchSong != null && !searchSong.equals("")) {
-            if(!condition.isEmpty())
+            if(!condition.equals(""))
                 condition = condition + " or ";
             if(exactSong)
                 condition += "name='" + searchSong + "'";
