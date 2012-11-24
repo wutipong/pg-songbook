@@ -15,10 +15,14 @@
             android:id="@+id/artist_list_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:layout_marginTop="0dp"
             android:layout_weight="1"
-            android:background="@color/text_header_background"
+            android:background="@drawable/panel_background"
             android:orientation="vertical"
-            android:paddingRight="?android:attr/scrollbarSize" >
+            android:paddingLeft="0dp"
+            android:paddingRight="?android:attr/scrollbarSize"
+            android:paddingTop="0dp" >
 
             <TextView
                 android:id="@+id/textView1"
