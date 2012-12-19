@@ -6,102 +6,104 @@
 
     <uses-sdk
         android:minSdkVersion="7"
-        android:targetSdkVersion="13" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
         <activity
-            android:label="@string/app_name"
-            android:name=".MainActivity" >
-            <intent-filter >
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <meta-data android:name="android.app.default_searchable"
-                   android:value=".search.SearchActivity" />
-            
+
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".search.SearchActivity" />
         </activity>
         <activity
-            android:label="@string/app_name"
-            android:name=".SongDisplayActivity" >
-            <intent-filter >
+            android:name=".SongDisplayActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-		        <data android:scheme="file" />
-		        <data android:mimeType="*/*" />
-		        <data android:pathPattern=".*\\.pro" />
-		        <data android:pathPattern=".*\\.chord" />
-		        <data android:pathPattern=".*\\.chordpro" />
-		        <data android:pathPattern=".*\\.crd" />
-		        <data android:host="*" />                
+
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.pro" />
+                <data android:pathPattern=".*\\.chord" />
+                <data android:pathPattern=".*\\.chordpro" />
+                <data android:pathPattern=".*\\.crd" />
+                <data android:host="*" />
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/app_name"
-            android:name=".SongListActivity" >
-            <intent-filter >
+            android:name=".SongListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:label="@string/app_name"
-            android:name=".PreferenceActivity" >
-            <intent-filter >
+            android:name=".PreferenceActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-         <activity
-            android:label="@string/app_name"
-            android:name=".HelpActivity" >
-            <intent-filter >
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-         <activity
-            android:label="@string/app_name"
-            android:name=".SettingsActivity" >
-            <intent-filter >
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-         <activity
-            android:name=".search.SearchActivity" >
-            <intent-filter >
+        <activity android:name=".search.SearchActivity" >
+            <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                   android:resource="@xml/searchable"/>
-            
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
-        
-          <activity
-            android:label="@string/app_name"
-            android:name=".about.AboutActivity" >
-            <intent-filter >
+        <activity
+            android:name=".about.AboutActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
-        <activity android:name="com.google.ads.AdActivity"
-              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-        
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
     </application>
 
 </manifest>
