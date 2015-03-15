@@ -81,7 +81,7 @@ public final class SongFactory {
         public int xLineStart = 0;
 
         public int pageWidth = 0;
-        
+
         public final int heightChordLine;
         public final int heightTextLine;
         public final TransposeType transposeType;
@@ -89,11 +89,8 @@ public final class SongFactory {
         public final int pageHeight;
         public final int pageSeperator;
 
-        public DrawLineParam( int heightChordLine,
-                int heightTextLine,
-                TransposeType transposeType,
-                int transpose,
-                int pageHeight,
+        public DrawLineParam(int heightChordLine, int heightTextLine,
+                TransposeType transposeType, int transpose, int pageHeight,
                 int pageSeperator) {
 
             this.heightChordLine = heightChordLine;
@@ -107,7 +104,7 @@ public final class SongFactory {
 
     public static Drawable create(Document doc, Activity activity,
             int transpose, boolean isSharp, int pageWidth, int pageHeight) {
-      
+
         prepareResources(activity);
 
         List<DrawTextCommand> commandList = new LinkedList<DrawTextCommand>();
@@ -115,16 +112,14 @@ public final class SongFactory {
         LinkedList<Element> lineElements = new LinkedList<Element>();
 
         DrawLineParam param = new DrawLineParam(
-                (int)sPaints[PAINT_TYPE_CHORD].getFontSpacing(),
-                (int)sPaints[PAINT_TYPE_TEXT].getFontSpacing(),
-                isSharp? TransposeType.Sharp: TransposeType.Flat,
-                transpose,
-                pageHeight,
-                (int)sPaints[PAINT_TYPE_TEXT].measureText("    "));
+                (int) sPaints[PAINT_TYPE_CHORD].getFontSpacing(),
+                (int) sPaints[PAINT_TYPE_TEXT].getFontSpacing(),
+                isSharp ? TransposeType.Sharp : TransposeType.Flat, transpose,
+                pageHeight, (int) sPaints[PAINT_TYPE_TEXT].measureText("    "));
 
         for (Element element : doc.elementList) {
             switch (element.type) {
-            case Linebreak :
+            case Linebreak:
                 commandList = addLine(commandList, lineElements, param);
                 lineElements.clear();
                 break;
@@ -136,14 +131,14 @@ public final class SongFactory {
         }
 
         Picture picture = new Picture();
-        Canvas canvas = picture.beginRecording(param.pageWidth, param.pageHeight);
+        Canvas canvas = picture.beginRecording(param.pageWidth,
+                param.pageHeight);
         canvas.drawColor(mBackgroundColor);
-        
+
         for (DrawTextCommand command : commandList) {
             Point pos = command.getLocation();
 
-            canvas.drawText(command.getText(), pos.x,
-                    pos.y, command.getPaint());
+            canvas.drawText(command.getText(), pos.x, pos.y, command.getPaint());
         }
 
         picture.endRecording();
@@ -153,24 +148,23 @@ public final class SongFactory {
     }
 
     private static List<DrawTextCommand> addLine(
-            List<DrawTextCommand> commandList,
-            List<Element> lineElements,
+            List<DrawTextCommand> commandList, List<Element> lineElements,
             DrawLineParam param) {
 
         boolean hasText = false;
         boolean hasChord = false;
         boolean hasComment = false;
 
-        for(Element element: lineElements) {
-            if(element.type == Element.Type.Text){
+        for (Element element : lineElements) {
+            if (element.type == Element.Type.Text) {
                 hasText = true;
-            } else if(element.type == Element.Type.Chord) {
+            } else if (element.type == Element.Type.Chord) {
                 hasChord = true;
-            } else if(element.type == Element.Type.Comment) {
+            } else if (element.type == Element.Type.Comment) {
                 hasComment = true;
             }
         }
-        
+
         int line1 = 0;
         int line2 = 0;
 
@@ -183,12 +177,12 @@ public final class SongFactory {
         } else if (hasChord) {
             line1 = param.heightChordLine;
             line2 = param.heightChordLine;
-        } else if (lineElements.size() == 0){
+        } else if (lineElements.size() == 0) {
             param.yLineStart += param.heightTextLine;
             return commandList;
         }
-        
-        if((line2 + param.yLineStart) > param.pageHeight) {
+
+        if ((line2 + param.yLineStart) > param.pageHeight) {
             param.yLineStart = 0;
             param.xLineStart = param.pageWidth + param.pageSeperator;
             param.pageWidth = 0;
@@ -196,7 +190,7 @@ public final class SongFactory {
             line1 += param.yLineStart;
             line2 += param.yLineStart;
         }
-        
+
         param.yLineStart = line2;
 
         Point chordPos = new Point();
@@ -209,7 +203,7 @@ public final class SongFactory {
         float textWidth = 0;
         float chordWidth = 0;
 
-        for(Element element: lineElements) {
+        for (Element element : lineElements) {
             switch (element.type) {
 
             default:
@@ -230,9 +224,9 @@ public final class SongFactory {
                 param.isTab = false;
                 break;
 
-            case Chord:
-            {
-                String chord = transposeChord(element.data, param.transpose, param.transposeType);
+            case Chord: {
+                String chord = transposeChord(element.data, param.transpose,
+                        param.transposeType);
 
                 if (textWidth == 0) {
                     textPos.x += chordWidth;
@@ -240,22 +234,22 @@ public final class SongFactory {
                 chordPos.x = textPos.x;
                 commandList.add(new DrawTextCommand(chordPos, chord,
                         sPaints[PAINT_TYPE_CHORD]));
-                chordWidth = (int) (sPaints[PAINT_TYPE_CHORD].measureText(chord + " ") +1);
+                chordWidth = (int) (sPaints[PAINT_TYPE_CHORD].measureText(chord
+                        + " ") + 1);
                 if (chordPos.x + chordWidth > param.pageWidth) {
                     param.pageWidth = (int) (chordPos.x + chordWidth + 1);
                 }
                 textWidth = 0;
 
             }
-            break;
+                break;
 
             case Comment:
                 textWidth = addTextToLine(commandList, element, param, textPos,
                         chordWidth, sPaints[PAINT_TYPE_COMMENT]);
                 break;
 
-            case Text:
-            {
+            case Text: {
                 Paint paint;
                 if (param.isTab) {
                     paint = sPaints[PAINT_TYPE_TAB];
@@ -268,7 +262,7 @@ public final class SongFactory {
                 textWidth = addTextToLine(commandList, element, param, textPos,
                         chordWidth, paint);
             }
-            break;
+                break;
 
             }
         }
@@ -280,8 +274,7 @@ public final class SongFactory {
             Element element, DrawLineParam param, Point textPos,
             float chordWidth, Paint paint) {
         float textWidth;
-        commandList.add(new DrawTextCommand(textPos, element.data,
-                paint));
+        commandList.add(new DrawTextCommand(textPos, element.data, paint));
         textWidth = paint.measureText(element.data);
 
         if (textWidth > chordWidth) {
@@ -295,7 +288,6 @@ public final class SongFactory {
         }
         return textWidth;
     }
-
 
     private static void prepareResources(Activity activity) {
         SharedPreferences preferences = PreferenceManager

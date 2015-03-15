@@ -33,4 +33,6 @@
     <string name="google_plus">Google+</string>
     <string name="menu_item_add_to_library">Add To Library</string>
     <string name="menu_item_transpose">Transpose</string>
+    <string name="text1">Text 1</string>
+    <string name="text2">Text 2</string>
 </resources>

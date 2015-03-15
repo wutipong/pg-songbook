@@ -33,13 +33,12 @@ public class SongListFragment extends android.app.ListFragment implements
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent intent = new Intent(getActivity(),
-                SongDisplayActivity.class);
-        
-        Song song = (Song)getListAdapter().getItem(position);
+        Intent intent = new Intent(getActivity(), SongDisplayActivity.class);
+
+        Song song = (Song) getListAdapter().getItem(position);
         intent.setData(Uri.fromFile(song.file));
         intent.putExtra("iternal", true);
-        
+
         this.startActivity(intent);
     }
 
@@ -58,12 +57,10 @@ public class SongListFragment extends android.app.ListFragment implements
     public void updateSongList(String artist) {
 
         Song mSongs[] = mDbHelper.querySong(artist, true, null, true);
-        SongListAdapter adapter = new SongListAdapter(getActivity(), 
-                mSongs);
-        
+        SongListAdapter adapter = new SongListAdapter(getActivity(), mSongs);
+
         setListAdapter(adapter);
     }
-
 
     @Override
     public void onFinished() {

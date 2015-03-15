@@ -140,9 +140,9 @@ public class Document {
     private static void removeTopEmptyLines(List<Element> elementList) {
         Iterator<Element> iter = elementList.iterator();
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Element element = iter.next();
-            if(element.type == Element.Type.Linebreak)
+            if (element.type == Element.Type.Linebreak)
                 iter.remove();
             else
                 break;
@@ -152,10 +152,10 @@ public class Document {
     private static void removeEmptyText(List<Element> elementList) {
         Iterator<Element> iter = elementList.iterator();
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Element element = iter.next();
-            if(element.type == Element.Type.Text &&
-                    element.data.trim().length() == 0)
+            if (element.type == Element.Type.Text
+                    && element.data.trim().length() == 0)
                 iter.remove();
         }
     }

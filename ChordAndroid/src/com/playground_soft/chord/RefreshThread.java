@@ -38,9 +38,10 @@ public class RefreshThread extends Thread {
         this.mActivity = activity;
         this.mDbHelper = new DatabaseHelper(mActivity);
         this.mOnFinishHandler = onFinishHandler;
-        mHandler = new Handler() {
+        mHandler = new Handler(new Handler.Callback() {
+
             @Override
-            public void handleMessage(Message msg) {
+            public boolean handleMessage(Message msg) {
 
                 int arg = msg.arg1;
                 if (msg.what == MESSAGE_TYPE_ERROR) {
@@ -66,7 +67,7 @@ public class RefreshThread extends Thread {
                                         }
                                     });
                     builder.create().show();
-                    return;
+                    return true;
                 }
 
                 else if (msg.what == MESSAGE_TYPE_NORMAL) {
@@ -92,10 +93,9 @@ public class RefreshThread extends Thread {
                             mOnFinishHandler.onFinished();
                     }
                 }
-
+                return true;
             }
-        };
-
+        });
     }
 
     @Override
@@ -114,9 +114,9 @@ public class RefreshThread extends Thread {
         startMsg.arg1 = MESSAGE_ARG_START;
         mHandler.sendMessage(startMsg);
 
-       File inDir = FileSystemUtils.EXTERNAL_DIR;
-       File outDir = FileSystemUtils.INTERNAL_DIR;
-      
+        File inDir = FileSystemUtils.EXTERNAL_DIR;
+        File outDir = FileSystemUtils.INTERNAL_DIR;
+
         mDbHelper.deleteAllSong();
         if (!inDir.exists()) {
             inDir.mkdirs();
@@ -124,7 +124,7 @@ public class RefreshThread extends Thread {
             Message msg = new Message();
             msg.what = MESSAGE_TYPE_NORMAL;
             msg.arg1 = MESSAGE_ARG_FINISHED;
-            
+
             mHandler.sendMessage(msg);
             mDbHelper.close();
             return;
@@ -147,7 +147,7 @@ public class RefreshThread extends Thread {
             return;
         }
 
-        try{
+        try {
             copyFiles(inDir, outDir);
         } catch (IOException e) {
             Message msgErr = new Message();
@@ -168,7 +168,7 @@ public class RefreshThread extends Thread {
 
     private void deleteDir(File outDir) {
         for (File file : outDir.listFiles()) {
-            if(file.isDirectory())
+            if (file.isDirectory())
                 deleteDir(file);
             else
                 file.delete();
@@ -180,35 +180,33 @@ public class RefreshThread extends Thread {
         File[] inFiles = inDir.listFiles();
 
         for (int i = 0; i < inFiles.length; i++) {
-                File inFile = inFiles[i];
-                String inFileName = inFile.getName();
-                File outFile = new File(outDir.getAbsoluteFile() + "/"
-                        + inFile.getName());
+            File inFile = inFiles[i];
+            String inFileName = inFile.getName();
+            File outFile = new File(outDir.getAbsoluteFile() + "/"
+                    + inFile.getName());
 
-                if(inFile.isDirectory()) {
-                    outFile.mkdirs();
+            if (inFile.isDirectory()) {
+                outFile.mkdirs();
 
-                    copyFiles(inFile, outFile);
-                    return;
-                }
+                copyFiles(inFile, outFile);
+                return;
+            }
 
-                if( !inFileName.endsWith(".crd") &&
-                        !inFileName.endsWith(".cho") &&
-                        !inFileName.endsWith(".pro") &&
-                        !inFileName.endsWith(".chordpro")) {
+            if (!inFileName.endsWith(".crd") && !inFileName.endsWith(".cho")
+                    && !inFileName.endsWith(".pro")
+                    && !inFileName.endsWith(".chordpro")) {
 
-                    continue;
-                }
+                continue;
+            }
 
-                outFile.createNewFile();
+            outFile.createNewFile();
 
-                FileSystemUtils.copyFile(inFile, outFile);
+            FileSystemUtils.copyFile(inFile, outFile);
 
-                Document doc = Document.createFromFile(outFile);
-                mDbHelper.createOrUpdate(doc.title, doc.subtitle,
-                        outFile.getAbsolutePath());
+            Document doc = Document.createFromFile(outFile);
+            mDbHelper.createOrUpdate(doc.title, doc.subtitle,
+                    outFile.getAbsolutePath());
         }
     }
 
-  
 }

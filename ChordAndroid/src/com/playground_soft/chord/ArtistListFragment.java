@@ -17,9 +17,8 @@ import com.playground_soft.chord.about.AboutActivity;
 import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.type.Artist;
 
-public class ArtistListFragment
-        extends ListFragment 
-        implements RefreshThread.OnFinishHandler {
+public class ArtistListFragment extends ListFragment implements
+        RefreshThread.OnFinishHandler {
     private ArrayAdapter<Artist> mAdapter;
     private DatabaseHelper mDbHelper;
     private SongListFragment mSonglistFragment;
@@ -78,41 +77,42 @@ public class ArtistListFragment
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        
+
         switch (item.getItemId()) {
-            case R.id.menu_item_settings : {
-                Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
-                startActivity(intent);
-                break;
-            }
-            
-            case R.id.menu_item_synchronize: {
-                RefreshThread thread = new RefreshThread(this.getActivity(), this);
-                thread.start();
-                break;
-            }
-            
-            case R.id.menu_item_about: {
-                Intent intent = new Intent(this.getActivity(), AboutActivity.class);
-                this.startActivity(intent);
-                break;
-            }
-            
-            case R.id.menu_item_help: {
-                Intent intent = new Intent(this.getActivity(), HelpActivity.class);
-                this.startActivity(intent);
-                break;
-            } 
-            
-            case R.id.menu_item_search: {
-                getActivity().onSearchRequested();
-                break;
-            }
-            
-            default:
-                return super.onOptionsItemSelected(item);
+        case R.id.menu_item_settings: {
+            Intent intent = new Intent(this.getActivity(),
+                    SettingsActivity.class);
+            startActivity(intent);
+            break;
         }
-        
+
+        case R.id.menu_item_synchronize: {
+            RefreshThread thread = new RefreshThread(this.getActivity(), this);
+            thread.start();
+            break;
+        }
+
+        case R.id.menu_item_about: {
+            Intent intent = new Intent(this.getActivity(), AboutActivity.class);
+            this.startActivity(intent);
+            break;
+        }
+
+        case R.id.menu_item_help: {
+            Intent intent = new Intent(this.getActivity(), HelpActivity.class);
+            this.startActivity(intent);
+            break;
+        }
+
+        case R.id.menu_item_search: {
+            getActivity().onSearchRequested();
+            break;
+        }
+
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+
         return true;
     }
 
@@ -131,23 +131,22 @@ public class ArtistListFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.main, menu);
-        
+
         super.onCreateOptionsMenu(menu, inflater);
-        
-     // Get the SearchView and set the search-able configuration
-       
-        SearchManager searchManager = 
-                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-       
-        
+
+        // Get the SearchView and set the search-able configuration
+
+        SearchManager searchManager = (SearchManager) getActivity()
+                .getSystemService(Context.SEARCH_SERVICE);
+
         View searchView = new SearchView(this.getActivity());
         // if search view is compatible
-        if (searchView!=null) {
+        if (searchView != null) {
             MenuItem item = menu.findItem(R.id.menu_item_search);
             item.setActionView(searchView);
-            ((SearchView)searchView).setSearchableInfo(
-                    searchManager.getSearchableInfo(getActivity().getComponentName()));
-        } 
+            ((SearchView) searchView).setSearchableInfo(searchManager
+                    .getSearchableInfo(getActivity().getComponentName()));
+        }
     }
 
     @Override

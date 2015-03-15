@@ -12,10 +12,8 @@ import android.widget.ToggleButton;
 
 import com.playground_soft.chord.R;
 
-public class TransposeDialog
-extends android.app.DialogFragment
-implements View.OnClickListener, 
-DialogInterface.OnClickListener {
+public class TransposeDialog extends android.app.DialogFragment implements
+        View.OnClickListener, DialogInterface.OnClickListener {
 
     private int mSelectedValue = 0;
     private int mTempValue = 0;
@@ -23,9 +21,9 @@ DialogInterface.OnClickListener {
     private ToggleButton mSharpOrFlatButton;
     private EditText mEditSemitone;
     private Button mPlusButton, mMinusButton;
-    
-    @Override 
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         LayoutInflater inflater = LayoutInflater.from(this.getActivity());
 
@@ -39,19 +37,16 @@ DialogInterface.OnClickListener {
                 .findViewById(R.id.button_sharp_or_flat);
         mSharpOrFlatButton.setChecked(mIsSharp);
 
-        mPlusButton = (Button)v.findViewById(R.id.button_plus);
-        mMinusButton = (Button)v.findViewById(R.id.button_minus);
+        mPlusButton = (Button) v.findViewById(R.id.button_plus);
+        mMinusButton = (Button) v.findViewById(R.id.button_minus);
 
         mPlusButton.setOnClickListener(this);
         mMinusButton.setOnClickListener(this);
 
-        
-        return new AlertDialog.Builder(getActivity())
-                .setView(v)
+        return new AlertDialog.Builder(getActivity()).setView(v)
                 .setTitle("Transpose")
                 .setPositiveButton(android.R.string.ok, this)
-                .setNegativeButton(android.R.string.cancel, this)
-                .create(); 
+                .setNegativeButton(android.R.string.cancel, this).create();
     }
 
     public int getValue() {
@@ -73,10 +68,10 @@ DialogInterface.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v == mPlusButton) {
-            mTempValue = mTempValue+1;
-        } else if(v == mMinusButton) {
-            mTempValue = mTempValue-1;
+        if (v == mPlusButton) {
+            mTempValue = mTempValue + 1;
+        } else if (v == mMinusButton) {
+            mTempValue = mTempValue - 1;
         }
 
         mEditSemitone.setText(Integer.toString(mTempValue));
@@ -87,14 +82,14 @@ DialogInterface.OnClickListener {
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        switch(which) {
+        switch (which) {
         case DialogInterface.BUTTON_POSITIVE:
             setValue(mTempValue);
             break;
         case DialogInterface.BUTTON_NEGATIVE:
             break;
         }
-        
+
         dialog.dismiss();
     }
 }

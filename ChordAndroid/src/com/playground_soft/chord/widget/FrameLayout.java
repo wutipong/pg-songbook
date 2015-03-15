@@ -13,24 +13,25 @@ public class FrameLayout extends android.widget.FrameLayout {
     public FrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-    
+
     public FrameLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-    
+
     @Override
-    protected void onSizeChanged (int w, int h, int oldw, int oldh){
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if(onSizeChangedListener != null) {
+        if (onSizeChangedListener != null) {
             onSizeChangedListener.onSizeChanged(w, h, oldw, oldh);
         }
     }
-    
+
     public interface OnSizeChangedListener {
-        public void onSizeChanged (int w, int h, int oldw, int oldh);
+        public void onSizeChanged(int w, int h, int oldw, int oldh);
     }
-    
-    public void setOnSizeChangedListener(FrameLayout.OnSizeChangedListener listener) {
+
+    public void setOnSizeChangedListener(
+            FrameLayout.OnSizeChangedListener listener) {
         this.onSizeChangedListener = listener;
     }
 }

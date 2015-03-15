@@ -40,66 +40,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
     }
-       
-    public synchronized Song[] querySong(
-            String searchArtist,
-            boolean exactArtist,
-            String searchSong,
-            boolean exactSong) {
-        
+
+    public synchronized Song[] querySong(String searchArtist,
+            boolean exactArtist, String searchSong, boolean exactSong) {
+
         List<Song> songList = new LinkedList<Song>();
         SQLiteDatabase db = this.getReadableDatabase();
-        
+
         String condition = "";
-       
+
         ArrayList<String> conditionParamList = new ArrayList<String>();
-        
+
         if (searchArtist != null && !searchArtist.equals("")) {
-            if(exactArtist){
+            if (exactArtist) {
                 condition = "artist=?";
                 conditionParamList.add(searchArtist);
-            }
-            else{
+            } else {
                 condition = "artist like ?";
-                conditionParamList.add("%"+searchArtist+"%");
+                conditionParamList.add("%" + searchArtist + "%");
             }
         }
-        
+
         if (searchSong != null && !searchSong.equals("")) {
-            if(!condition.equals(""))
+            if (!condition.equals(""))
                 condition = condition + " or ";
-            
-            if(exactSong){
+
+            if (exactSong) {
                 condition += "name=?";
                 conditionParamList.add(searchSong);
-            }
-            else {
+            } else {
                 condition += "name like ?";
-                conditionParamList.add("%"+searchSong+"%");
+                conditionParamList.add("%" + searchSong + "%");
             }
         }
-       
-        Cursor cursor =  db.query("song", 
-                new String[] { "_ROWID_ as _id", "name", "artist", "filename" }, 
-                condition, conditionParamList.toArray(new String[0]), 
-                null, null, "name");
-        
-        for (cursor.moveToFirst(); 
-                !cursor.isAfterLast(); 
-                cursor.moveToNext()) {
-            
+
+        Cursor cursor = db.query("song", new String[] { "_ROWID_ as _id",
+                "name", "artist", "filename" }, condition,
+                conditionParamList.toArray(new String[0]), null, null, "name");
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext()) {
+
             int id = cursor.getInt(0);
             String name = cursor.getString(1);
             String artist = cursor.getString(2);
             String file = cursor.getString(3);
-            
-            Song song = new Song(name, artist, new File(file), id );
+
+            Song song = new Song(name, artist, new File(file), id);
             songList.add(song);
         }
-        
+
         cursor.close();
         db.close();
-        
+
         return songList.toArray(new Song[0]);
     }
 
@@ -107,12 +99,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String filename) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(
-                "song", 
-                new String[]{"filename"}, 
-                "filename=?", 
-                new String[]{filename}, 
-                null, null, null);
+        Cursor cursor = db.query("song", new String[] { "filename" },
+                "filename=?", new String[] { filename }, null, null, null);
 
         ContentValues values = new ContentValues();
         values.put("name", name);
@@ -122,7 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.getCount() == 0) {
             db.insert("song", null, values);
         } else {
-            db.update("song", values, "filename=?", new String[]{filename});
+            db.update("song", values, "filename=?", new String[] { filename });
         }
         cursor.close();
         db.close();
@@ -140,13 +128,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ArrayList<Artist> artistList = new ArrayList<Artist>();
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(
-                "song", 
-                new String[] { "max(_ROWID_) as _id", "name", "artist", "filename" }, 
-                null, null, 
-                "artist", null,
+        Cursor cursor = db.query("song", new String[] { "max(_ROWID_) as _id",
+                "name", "artist", "filename" }, null, null, "artist", null,
                 "artist", null);
-        
+
         if (cursor.getCount() != 0) {
             cursor.moveToFirst();
             do {
@@ -157,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 artistList.add(artist);
             } while (cursor.moveToNext());
         }
-        
+
         cursor.close();
         db.close();
         return artistList.toArray(new Artist[0]);

@@ -31,10 +31,8 @@ import com.playground_soft.chord.dialog.TransposeDialog;
 import com.playground_soft.chord.widget.FrameLayout;
 import com.playground_soft.chordlib.Document;
 
-
-public class SongDisplayFragment 
-        extends Fragment 
-        implements FrameLayout.OnSizeChangedListener{
+public class SongDisplayFragment extends Fragment implements
+        FrameLayout.OnSizeChangedListener {
 
     private Drawable mOutputDrawable;
     private Document mDocument;
@@ -45,10 +43,10 @@ public class SongDisplayFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = this.getActivity().getIntent();
-        
+
         Uri uri = intent.getData();
-        assert(uri != null);
-       
+        assert (uri != null);
+
         File file = new File(uri.getPath());
 
         StringBuilder builder = new StringBuilder();
@@ -56,8 +54,8 @@ public class SongDisplayFragment
         try {
             FileInputStream stream = new FileInputStream(file);
 
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(stream));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(
+                    stream));
 
             String line;
 
@@ -83,7 +81,7 @@ public class SongDisplayFragment
         View result = inflater.inflate(R.layout.chord_fragment, container,
                 false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-       
+
         return result;
     }
 
@@ -91,17 +89,16 @@ public class SongDisplayFragment
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.song, menu);
-        
+
         Intent intent = this.getActivity().getIntent();
-        
+
         Uri uri = intent.getData();
-        assert(uri != null);
-       
+        assert (uri != null);
+
         File file = new File(uri.getPath());
-        if(file.getParentFile().equals(FileSystemUtils.INTERNAL_DIR)){
+        if (file.getParentFile().equals(FileSystemUtils.INTERNAL_DIR)) {
             menu.removeItem(R.id.menu_item_add_to_library);
         }
-            
 
     }
 
@@ -115,7 +112,7 @@ public class SongDisplayFragment
             this.startActivity(intent);
             break;
         }
-        
+
         case R.id.menu_item_transpose: {
             TransposeDialog dialog = new TransposeDialog() {
                 @Override
@@ -131,12 +128,13 @@ public class SongDisplayFragment
             dialog.show(this.getFragmentManager(), "");
             break;
         }
-        case R.id.menu_item_settings : {
-            Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
+        case R.id.menu_item_settings: {
+            Intent intent = new Intent(this.getActivity(),
+                    SettingsActivity.class);
             startActivity(intent);
             break;
         }
-        case R.id.menu_item_help:{
+        case R.id.menu_item_help: {
             Intent intent = new Intent(this.getActivity(), HelpActivity.class);
             this.startActivity(intent);
             break;
@@ -150,11 +148,11 @@ public class SongDisplayFragment
             Intent intent = this.getActivity().getIntent();
 
             Uri uri = intent.getData();
-            assert(uri != null);
-           
+            assert (uri != null);
+
             File file = new File(uri.getPath());
             DatabaseHelper dbHelper = new DatabaseHelper(this.getActivity());
-            
+
             try {
                 FileSystemUtils.copyToLibrary(file, dbHelper);
             } catch (IOException e) {
@@ -162,23 +160,24 @@ public class SongDisplayFragment
                 e.printStackTrace();
             }
             dbHelper.close();
-            
+
             new AlertDialog.Builder(getActivity())
-                .setTitle("File is added")
-                .setMessage(file.getName() + " is copied into the library.")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
-                    }
-                })
-                .show();
+                    .setTitle("File is added")
+                    .setMessage(file.getName() + " is copied into the library.")
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                        int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
         }
         default:
             break;
         }
-        //updateOutput();
+        // updateOutput();
 
         return super.onOptionsItemSelected(item);
     }
@@ -186,28 +185,27 @@ public class SongDisplayFragment
     public void onStart() {
         super.onStart();
 
-        FrameLayout songdisp = 
-                (FrameLayout)getActivity().findViewById(R.id.song_display);
+        FrameLayout songdisp = (FrameLayout) getActivity().findViewById(
+                R.id.song_display);
         songdisp.setOnSizeChangedListener(this);
     }
 
     private void updateOutput() {
         ImageView view = (ImageView) this.getActivity().findViewById(
                 R.id.imageView1);
-     
+
         View container = getActivity().findViewById(R.id.song_display);
-        
+
         mOutputDrawable = SongFactory.create(mDocument, this.getActivity(),
-                mTransposeValue, mIsTransposeInSharp, 
-                container.getWidth(), 
+                mTransposeValue, mIsTransposeInSharp, container.getWidth(),
                 container.getHeight());
-        
+
         view.setImageDrawable(mOutputDrawable);
         this.getActivity().setTitle(
                 String.format("%s by %s", mDocument.title, mDocument.subtitle));
-        
-        SharedPreferences preferences = 
-                PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(getActivity());
         Resources resource = getActivity().getResources();
 
         String theme = preferences.getString(
@@ -231,9 +229,9 @@ public class SongDisplayFragment
         super.onCreate(savedInstanceState);
         this.setHasOptionsMenu(true);
     }
-    
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         updateOutput();
     }
@@ -241,6 +239,6 @@ public class SongDisplayFragment
     @Override
     public void onSizeChanged(int w, int h, int oldw, int oldh) {
         updateOutput();
-        
+
     }
 }

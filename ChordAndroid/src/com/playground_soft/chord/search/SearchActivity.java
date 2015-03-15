@@ -27,20 +27,19 @@ public class SearchActivity extends ListActivity {
             Song songs[] = dbHelper.querySong(query, false, query, false);
             SongListAdapter adapter = new SongListAdapter(this, songs);
             setListAdapter(adapter);
-            
-            setTitle("Search results for '"+query+"'");
+
+            setTitle("Search results for '" + query + "'");
         }
     }
-    
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent intent = new Intent(this,
-                SongDisplayActivity.class);
-        Song song = (Song)getListAdapter().getItem(position);
+        Intent intent = new Intent(this, SongDisplayActivity.class);
+        Song song = (Song) getListAdapter().getItem(position);
         intent.setData(Uri.fromFile(song.file));
         intent.putExtra("internal", true);
         this.startActivity(intent);
     }
-    
+
 }
