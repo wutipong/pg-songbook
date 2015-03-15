@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,16 +17,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 
 import com.playground_soft.chord.about.AboutActivity;
 import com.playground_soft.chord.db.DatabaseHelper;
@@ -35,7 +33,7 @@ import com.playground_soft.chordlib.Document;
 
 
 public class SongDisplayFragment 
-        extends SherlockFragment 
+        extends Fragment 
         implements FrameLayout.OnSizeChangedListener{
 
     private Drawable mOutputDrawable;
@@ -84,7 +82,7 @@ public class SongDisplayFragment
 
         View result = inflater.inflate(R.layout.chord_fragment, container,
                 false);
-        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
        
         return result;
     }
@@ -218,9 +216,8 @@ public class SongDisplayFragment
         int id = resource.getIdentifier(theme, "array",
                 "com.playground_soft.chord");
         TypedArray array = resource.obtainTypedArray(id);
-
         int mBackgroundColor = array.getColor(0, 0xFFFFFFFF);
-        
+        array.recycle();
         container.setBackgroundColor(mBackgroundColor);
     }
 

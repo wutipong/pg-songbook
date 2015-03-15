@@ -1,5 +1,6 @@
 package com.playground_soft.chord.search;
 
+import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,13 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListActivity;
 import com.playground_soft.chord.SongDisplayActivity;
 import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.type.Song;
 import com.playground_soft.chord.widget.SongListAdapter;
 
-public class SearchActivity extends SherlockListActivity {
+public class SearchActivity extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

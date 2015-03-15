@@ -3,7 +3,6 @@ package com.playground_soft.chord;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
@@ -11,7 +10,7 @@ import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.type.Song;
 import com.playground_soft.chord.widget.SongListAdapter;
 
-public class SongListFragment extends ListFragment implements
+public class SongListFragment extends android.app.ListFragment implements
         RefreshThread.OnFinishHandler {
 
     private DatabaseHelper mDbHelper;

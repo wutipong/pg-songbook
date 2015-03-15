@@ -1,6 +1,7 @@
 package com.playground_soft.chord;
 
 import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -10,9 +11,7 @@ import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-
-public class HelpFragment extends SherlockListFragment {
+public class HelpFragment extends ListFragment {
     class HelpEntry{
         public final String name;
         public final String url;

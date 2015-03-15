@@ -1,8 +1,6 @@
 package com.playground_soft.chord.about;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.playground_soft.chord.R;
-
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
@@ -15,8 +13,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.playground_soft.chord.R;
+
 public class AboutFragment 
-extends SherlockFragment
+extends Fragment
 implements OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

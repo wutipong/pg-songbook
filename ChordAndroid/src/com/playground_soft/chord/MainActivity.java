@@ -1,13 +1,12 @@
 package com.playground_soft.chord;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends Activity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         if (version != lastRunVersion) {
             ArtistListFragment arf =
-                    (ArtistListFragment)getSupportFragmentManager()
+                    (ArtistListFragment)getFragmentManager()
                         .findFragmentById(R.id.artist_list_fragment);
             
             RefreshThread refreshThread = new RefreshThread(this, arf);

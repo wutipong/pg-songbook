@@ -1,8 +1,6 @@
 package com.playground_soft.chord;
 
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import android.app.Activity;

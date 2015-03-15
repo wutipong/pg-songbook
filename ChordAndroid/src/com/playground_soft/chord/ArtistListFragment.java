@@ -1,26 +1,24 @@
 package com.playground_soft.chord;
 
+import android.app.ListFragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SearchViewCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.app.SherlockListFragment;
 
 import com.playground_soft.chord.about.AboutActivity;
 import com.playground_soft.chord.db.DatabaseHelper;
 import com.playground_soft.chord.type.Artist;
 
 public class ArtistListFragment
-        extends SherlockListFragment 
+        extends ListFragment 
         implements RefreshThread.OnFinishHandler {
     private ArrayAdapter<Artist> mAdapter;
     private DatabaseHelper mDbHelper;
@@ -41,7 +39,7 @@ public class ArtistListFragment
         if (mSonglistFragment != null) {
             mSonglistFragment.updateSongList(artistName);
         } else {
-            Intent intent = new Intent(this.getSherlockActivity(),
+            Intent intent = new Intent(this.getActivity(),
                     SongListActivity.class);
 
             intent.putExtra("artist", artistName);
@@ -66,11 +64,11 @@ public class ArtistListFragment
         if (mSonglistFragment != null) {
             layout = android.R.layout.simple_list_item_activated_1;
         }
-        mAdapter = new ArrayAdapter<Artist>(this.getSherlockActivity(), layout);
+        mAdapter = new ArrayAdapter<Artist>(this.getActivity(), layout);
 
         mAdapter.add(new Artist("All", -1));
 
-        mDbHelper = new DatabaseHelper(getSherlockActivity());
+        mDbHelper = new DatabaseHelper(getActivity());
 
         for (Artist artist : mDbHelper.getArtistList()) {
             mAdapter.add(artist);
@@ -83,25 +81,25 @@ public class ArtistListFragment
         
         switch (item.getItemId()) {
             case R.id.menu_item_settings : {
-                Intent intent = new Intent(this.getSherlockActivity(), SettingsActivity.class); 
+                Intent intent = new Intent(this.getActivity(), SettingsActivity.class); 
                 startActivity(intent);
                 break;
             }
             
             case R.id.menu_item_synchronize: {
-                RefreshThread thread = new RefreshThread(this.getSherlockActivity(), this);
+                RefreshThread thread = new RefreshThread(this.getActivity(), this);
                 thread.start();
                 break;
             }
             
             case R.id.menu_item_about: {
-                Intent intent = new Intent(this.getSherlockActivity(), AboutActivity.class);
+                Intent intent = new Intent(this.getActivity(), AboutActivity.class);
                 this.startActivity(intent);
                 break;
             }
             
             case R.id.menu_item_help: {
-                Intent intent = new Intent(this.getSherlockActivity(), HelpActivity.class);
+                Intent intent = new Intent(this.getActivity(), HelpActivity.class);
                 this.startActivity(intent);
                 break;
             } 
@@ -136,13 +134,13 @@ public class ArtistListFragment
         
         super.onCreateOptionsMenu(menu, inflater);
         
-     // Get the SearchView and set the searchable configuration
+     // Get the SearchView and set the search-able configuration
        
         SearchManager searchManager = 
-                (SearchManager) getSherlockActivity().getSystemService(Context.SEARCH_SERVICE);
+                (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
        
         
-        View searchView = SearchViewCompat.newSearchView(this.getActivity());
+        View searchView = new SearchView(this.getActivity());
         // if search view is compatible
         if (searchView!=null) {
             MenuItem item = menu.findItem(R.id.menu_item_search);

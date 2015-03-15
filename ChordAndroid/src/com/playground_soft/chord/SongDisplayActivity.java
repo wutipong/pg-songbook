@@ -1,10 +1,9 @@
 package com.playground_soft.chord;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-
+import android.app.Activity;
 import android.os.Bundle;
 
-public class SongDisplayActivity extends SherlockFragmentActivity {
+public class SongDisplayActivity extends Activity {
 
     /** Called when the activity is first created. */
     @Override
